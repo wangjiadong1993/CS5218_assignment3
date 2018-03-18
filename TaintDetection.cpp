@@ -27,7 +27,7 @@
 
 using namespace llvm;
 
-std::set<Instruction*> detectTaint(BasicBlock*,std::set<Instruction*>);
+std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock*,std::set<Instruction*>);
 std::set<Instruction*> union_sets(std::set<Instruction*>, std::set<Instruction*>);
 
 int main(int argc, char **argv)
@@ -114,10 +114,12 @@ int main(int argc, char **argv)
 
       //GET THE TOP ELEMENT OF THE TRAVERSAL STACK
       std::pair<BasicBlock*,std::set<Instruction*> > analysisNode = traversalStack.top();
-      // CAN DIRECTLY POP IT
-      // THIS IS USELESS
+
       traversalStack.pop();
-        
+      
+
+
+
       // Extract the basic block and the set of initialized variables from  analysisNode
       
 
@@ -129,20 +131,51 @@ int main(int argc, char **argv)
       // EXTRACT THE INITIALIZED INSTRUCTION SET FROM THE PAIR
       std::set<Instruction*> initializedVars = analysisNode.second;     
 
+      errs()<< "BasicBlock: =============";
+      BB -> printAsOperand(errs(), false);
+      errs() << "\n";
 
 
       // Extract updatedInitializedVars (The list of initialized variables 
       // after BB) from BB and initializedVars
       //FIND THE UPDATED INITIALIZED VARIABLES
-      std::set<Instruction*> updatedInitializedVars = detectTaint(BB,initializedVars);
 
+      std::pair<std::set<Instruction*>, std::set<Instruction*>> detectResult = detectTaint(BB,initializedVars);
+      std::set<Instruction*> updatedInitializedVars = detectResult.first;
+      std::set<Instruction*> killedInitializedVars = detectResult.second;
 
+      errs() << "Before Detection\n";
+      for(Instruction* ins : analysisMap[BB]){
+        ins-> dump();
+      }
+
+      errs() << "After Detection\n";
+      errs() << "updated:\n";
+      for(Instruction* ins : updatedInitializedVars){
+        ins-> dump();
+      }
+      errs() << "killed: \n";
+      for(Instruction* ins : killedInitializedVars){
+        ins-> dump();
+      }
 
       // Update the analysis of node BB in the MAP to the union of currently sored InitializedVars 
       // and the generated updatedInitializedVars
       std::set<Instruction*> unionInitializedVars = union_sets(analysisMap[BB],updatedInitializedVars); 
+      for(Instruction* ins : killedInitializedVars){
+        // errs() << "try dumping...";
+        // ins -> dump();
+        if(unionInitializedVars.find(ins) != unionInitializedVars.end()){
+          unionInitializedVars.erase(ins);
+        }
+        // errs() << "....Done.\n";
+      }
+      // unionInitializedVars.erase(killedInitializedVars.cbegin(), killedInitializedVars.cend());
       analysisMap[BB] = unionInitializedVars;
-
+      errs() << "AfterAll: \n";
+      for(Instruction* ins : unionInitializedVars){
+        ins-> dump();
+      }
       // Extract the last instruction in the stack (Terminator Instruction)
       const TerminatorInst *TInst = BB->getTerminator();
 
@@ -237,11 +270,11 @@ std::set<Instruction*> union_sets(std::set<Instruction*>A, std::set<Instruction*
      return A;
 }
 
-std::set<Instruction*> detectTaint(BasicBlock* BB, std::set<Instruction*> secretVars){
+std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock* BB, std::set<Instruction*> secretVars){
   //copy the secret vars array
   //but I dont understand, why have to copy?
   std::set<Instruction*> newSecretVars(secretVars);
-
+  std::set<Instruction*> kilSecretVars;
   
   
   // Loop through instructions in BB
@@ -268,27 +301,36 @@ std::set<Instruction*> detectTaint(BasicBlock* BB, std::set<Instruction*> secret
       //initialization
       // printf(ANSI_COLOR_BLUE "Source found:%s" ANSI_COLOR_RESET "\n", I.getName().str().c_str());
       newSecretVars.insert(dyn_cast<Instruction>(&I));
-    }
-
-
-
-    // if I is store instruction
-    if (isa<StoreInst>(I)){
+    }else if (isa<StoreInst>(I)){
       // Check store instructions
       // e.g. store i32 0, i32* %retval
       //operand 0: the value that is going to be assigned
       //operand 1: the variable
       Value* v = I.getOperand(0);
       Instruction* op1 = dyn_cast<Instruction>(v); 
+
+      v = I.getOperand(1);
+      Instruction* op2 = dyn_cast<Instruction>(v);
+
+      // errs() << "Store:"
+      // I.dump();
+      // errs() <<  
       // If the FV is part of the secrets, insert the assigned variable
       //if the value expression is not NULL
       //if we can find it inside the secrets
       //then, put the variable into the secret set.
       if (op1 != nullptr && newSecretVars.find(op1) != newSecretVars.end()){
-         newSecretVars.insert(dyn_cast<Instruction>(I.getOperand(1)));  
+         newSecretVars.insert(op2); 
+         kilSecretVars.erase(op2);
+      }else if(op1 != nullptr || (newSecretVars.find(op1) == newSecretVars.end() && newSecretVars.find(op2) != newSecretVars.end())){
+         newSecretVars.erase(op2);
+         kilSecretVars.insert(op2);
+      }else{
+        ;
       }
     }else{  
-    // Check all other instructions
+      // Check all other instructions
+      bool flag = false;
       for (auto op = I.op_begin(); op != I.op_end(); op++) {
         
 
@@ -298,11 +340,23 @@ std::set<Instruction*> detectTaint(BasicBlock* BB, std::set<Instruction*> secret
         
 
         // for each assignment, if the FV contains secret, then the assigned also.
-        if (inst != nullptr && newSecretVars.find(inst) != newSecretVars.end())
+        if (inst != nullptr && newSecretVars.find(inst) != newSecretVars.end()){
           newSecretVars.insert(dyn_cast<Instruction>(&I));
+          if(kilSecretVars.find(&I) != kilSecretVars.end())
+            kilSecretVars.erase(dyn_cast<Instruction>(&I));
+          flag = true;
+        }
+      }
+      if(!flag){
+        // errs()<<"To Remove: ";
+        // I.dump();
+        // errs() << "\n";
+        kilSecretVars.insert(dyn_cast<Instruction>(&I));
+        if(newSecretVars.find(&I) != newSecretVars.end())
+          newSecretVars.erase(dyn_cast<Instruction>(&I));
       }
     }
   }
-  return newSecretVars;
+  return std::make_pair(newSecretVars,kilSecretVars);
 }
 
