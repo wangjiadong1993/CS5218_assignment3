@@ -29,10 +29,10 @@
 using namespace llvm;
 
 // for each function
-void generateCFG(BasicBlock*,std::map<BasicBlock*,std::set<Instruction*>>&);
-
+void generateCFG(BasicBlock* BB, std::set<Instruction*> newSecretVars, std::map<BasicBlock*,std::set<Instruction*>> & analysisMap);
+std::set<Instruction*> detectTaint(BasicBlock* BB, std::set<Instruction*> secretVars);
 // for each block
-std::pair<std::set<Instruction*>, std::set<Instruction*>> checkLeakage(BasicBlock*,std::set<Instruction*>);
+// std::set<Instruction*> checkLeakage(BasicBlock*,std::set<Instruction*>);
 
 int main(int argc, char **argv)
 {
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
     BasicBlock* BB = dyn_cast<BasicBlock>(F->begin()); 
     //Recursively search for secret vars.
-    generateCFG(BB, analysisMap);
+    generateCFG(BB, analysisMap[BB], analysisMap);
 
 
     std::cout << "With Registers: \n";
@@ -128,17 +128,14 @@ int main(int argc, char **argv)
 }
 
 // Block-wise
-void generateCFG(BasicBlock* BB, std::map<BasicBlock*,std::set<Instruction*>> & analysisMap)
+void generateCFG(BasicBlock* BB, std::set<Instruction*> secretVars, std::map<BasicBlock*,std::set<Instruction*>> & analysisMap)
 {
   // printf("Label Name:%s\n", BB->getName().str().c_str());
   // Get the exit
   //Check the leakage inside the Basic Block
   //If found any, put inside the secret vars.
-  std::pair<std::set<Instruction*>, std::set<Instruction*>> vars = checkLeakage(BB,analysisMap[BB]);
-  std::set<Instruction*> newSecretVars = vars.first;
-  std::set<Instruction*> killSecretVars = vars.second;
+  std::set<Instruction*> newSecretVars = detectTaint(BB, secretVars);
   analysisMap[BB].insert(newSecretVars.begin(), newSecretVars.end());
-  analysisMap[BB].erase(killSecretVars.begin(), killSecretVars.end());
   // analysisMap[BB].insert(newSecretVars.begin(), newSecretVars.end());
   // Pass secretVars list to child BBs and check them
   // Iteratively
@@ -154,24 +151,10 @@ void generateCFG(BasicBlock* BB, std::map<BasicBlock*,std::set<Instruction*>> & 
   for (int i = 0;  i < NSucc; ++i) {
     //the successor is a basic block.
     BasicBlock *Succ = TInst->getSuccessor(i); 
-    analysisMap[Succ].insert(newSecretVars.begin(), newSecretVars.end());
-    analysisMap[Succ].erase(killSecretVars.begin(), killSecretVars.end());
+    // analysisMap[Succ].insert(newSecretVars.begin(), newSecretVars.end());
     //do the check.  
-    generateCFG(Succ, analysisMap);
+    generateCFG(Succ, newSecretVars, analysisMap);
   }
-
-  // // Last Basic Block, check if secret leaks to public
-  // if (NSucc == 0){
-  //   int flag = false;
-  //   for (auto &S: newSecretVars)
-  //     if (strncmp(S->getName().str().c_str(),"public",6) == 0) {
-	 //      flag = true;
-  //     }
-  //   if (flag == true)
-	 //    printf(ANSI_COLOR_RED "OMG, Secret leaks to the Public" ANSI_COLOR_RESET	"\n");
-  //   else
-	 //    printf(ANSI_COLOR_GREEN "Secret does not leak to the Public" ANSI_COLOR_RESET	"\n");
-  // } 
 }
 
 
@@ -181,16 +164,28 @@ void generateCFG(BasicBlock* BB, std::map<BasicBlock*,std::set<Instruction*>> & 
 
 //So basically, this function just get a list of variables that
 //are contaminated by the secrets.
-std::pair<std::set<Instruction*>, std::set<Instruction*>> checkLeakage(BasicBlock* BB, std::set<Instruction*> secretVars)
-{
+std::set<Instruction*> detectTaint(BasicBlock* BB, std::set<Instruction*> secretVars){
   //copy the secret vars array
   //but I dont understand, why have to copy?
   std::set<Instruction*> newSecretVars(secretVars);
-  std::set<Instruction*> killSecretVars;
+  std::set<Instruction*> kilSecretVars;
+  
+  
   // Loop through instructions in BB
   //I instructions, pass by reference
   for (auto &I: *BB)
   {
+
+    //TESTING
+    //I.getName:
+    //If it is initialize new value, then it is the name of that variable
+    //com: for logic comparison
+    //call: for function call.
+    // std::cout << "<<<<" << std::endl;
+    // printf(ANSI_COLOR_RED "%s"  ANSI_COLOR_RESET "\n", I.getName().str().c_str());
+    // printf(ANSI_COLOR_RED "%s"  ANSI_COLOR_RESET "\n", );
+    // std::cout << ">>>>" << std::endl;
+
 
     //INITIALIZATION
     // Add secret variable to newSecretVars
@@ -198,14 +193,9 @@ std::pair<std::set<Instruction*>, std::set<Instruction*>> checkLeakage(BasicBloc
     if (strncmp(I.getName().str().c_str(),"source",6) == 0){
       // Print 
       //initialization
-      // printf(ANSI_COLOR_BLUE "Secret found:%s" ANSI_COLOR_RESET "\n", I.getName().str().c_str());
+      // printf(ANSI_COLOR_BLUE "Source found:%s" ANSI_COLOR_RESET "\n", I.getName().str().c_str());
       newSecretVars.insert(dyn_cast<Instruction>(&I));
-    }
-
-
-
-    // if I is store instruction
-    if (isa<StoreInst>(I)){
+    }else if (isa<StoreInst>(I)){
       // Check store instructions
       // e.g. store i32 0, i32* %retval
       //operand 0: the value that is going to be assigned
@@ -214,42 +204,52 @@ std::pair<std::set<Instruction*>, std::set<Instruction*>> checkLeakage(BasicBloc
       Instruction* op1 = dyn_cast<Instruction>(v); 
 
       v = I.getOperand(1);
-      Instruction* op2 = dyn_cast<Instruction>(v); 
+      Instruction* op2 = dyn_cast<Instruction>(v);
+
+      // errs() << "Store:"
+      // I.dump();
+      // errs() <<  
       // If the FV is part of the secrets, insert the assigned variable
       //if the value expression is not NULL
       //if we can find it inside the secrets
       //then, put the variable into the secret set.
       if (op1 != nullptr && newSecretVars.find(op1) != newSecretVars.end()){
-	       newSecretVars.insert(op2);	
-      }else if(op1 != nullptr && newSecretVars.find(op1) == newSecretVars.end() && newSecretVars.find(op2) != newSecretVars.end()){
+         newSecretVars.insert(op2); 
+         // kilSecretVars.erase(op2);
+      }else if(op1 != nullptr || (newSecretVars.find(op1) == newSecretVars.end() && newSecretVars.find(op2) != newSecretVars.end())){
          newSecretVars.erase(op2);
-         killSecretVars.insert(op2);
+         // kilSecretVars.insert(op2);
       }else{
         ;
       }
-
-    }else{	
-    // Check all other instructions
+    }else{  
+      // Check all other instructions
       bool flag = false;
       for (auto op = I.op_begin(); op != I.op_end(); op++) {
-	      
+        
 
         //parse the oprand as an instrcution type.
         Value* v = op->get();
-	      Instruction* inst = dyn_cast<Instruction>(v);
+        Instruction* inst = dyn_cast<Instruction>(v);
         
 
         // for each assignment, if the FV contains secret, then the assigned also.
         if (inst != nullptr && newSecretVars.find(inst) != newSecretVars.end()){
-	        newSecretVars.insert(dyn_cast<Instruction>(&I));
+          newSecretVars.insert(dyn_cast<Instruction>(&I));
+          // if(kilSecretVars.find(&I) != kilSecretVars.end())
+          //   kilSecretVars.erase(dyn_cast<Instruction>(&I));
           flag = true;
         }
       }
       if(!flag){
-        killSecretVars.insert(dyn_cast<Instruction>(&I));
-        newSecretVars.erase(dyn_cast<Instruction>(&I));
+        // errs()<<"To Remove: ";
+        // I.dump();
+        // errs() << "\n";
+        kilSecretVars.insert(dyn_cast<Instruction>(&I));
+        // if(newSecretVars.find(&I) != newSecretVars.end())
+        //   newSecretVars.erase(dyn_cast<Instruction>(&I));
       }
     }
   }
-  return std::make_pair(newSecretVars,killSecretVars);
+  return newSecretVars;
 }

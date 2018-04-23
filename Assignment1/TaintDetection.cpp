@@ -27,7 +27,7 @@
 
 using namespace llvm;
 
-std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock*,std::set<Instruction*>);
+std::set<Instruction*> detectTaint(BasicBlock*,std::set<Instruction*>);
 std::set<Instruction*> union_sets(std::set<Instruction*>, std::set<Instruction*>);
 
 int main(int argc, char **argv)
@@ -131,51 +131,51 @@ int main(int argc, char **argv)
       // EXTRACT THE INITIALIZED INSTRUCTION SET FROM THE PAIR
       std::set<Instruction*> initializedVars = analysisNode.second;     
 
-      errs()<< "BasicBlock: =============";
-      BB -> printAsOperand(errs(), false);
-      errs() << "\n";
+      // errs()<< "BasicBlock: =============";
+      // BB -> printAsOperand(errs(), false);
+      // errs() << "\n";
 
 
       // Extract updatedInitializedVars (The list of initialized variables 
       // after BB) from BB and initializedVars
       //FIND THE UPDATED INITIALIZED VARIABLES
 
-      std::pair<std::set<Instruction*>, std::set<Instruction*>> detectResult = detectTaint(BB,initializedVars);
-      std::set<Instruction*> updatedInitializedVars = detectResult.first;
-      std::set<Instruction*> killedInitializedVars = detectResult.second;
+      // std::pair<std::set<Instruction*>, std::set<Instruction*>> detectResult = ;
+      std::set<Instruction*> updatedInitializedVars = detectTaint(BB,initializedVars);
+      // std::set<Instruction*> killedInitializedVars = detectResult.second;
 
-      errs() << "Before Detection\n";
-      for(Instruction* ins : analysisMap[BB]){
-        ins-> dump();
-      }
+      // errs() << "Before Detection\n";
+      // for(Instruction* ins : analysisMap[BB]){
+      //   ins-> dump();
+      // }
 
-      errs() << "After Detection\n";
-      errs() << "updated:\n";
-      for(Instruction* ins : updatedInitializedVars){
-        ins-> dump();
-      }
-      errs() << "killed: \n";
-      for(Instruction* ins : killedInitializedVars){
-        ins-> dump();
-      }
+      // errs() << "After Detection\n";
+      // errs() << "updated:\n";
+      // for(Instruction* ins : updatedInitializedVars){
+      //   ins-> dump();
+      // }
+      // errs() << "killed: \n";
+      // for(Instruction* ins : killedInitializedVars){
+      //   ins-> dump();
+      // }
 
       // Update the analysis of node BB in the MAP to the union of currently sored InitializedVars 
       // and the generated updatedInitializedVars
       std::set<Instruction*> unionInitializedVars = union_sets(analysisMap[BB],updatedInitializedVars); 
-      for(Instruction* ins : killedInitializedVars){
-        // errs() << "try dumping...";
-        // ins -> dump();
-        if(unionInitializedVars.find(ins) != unionInitializedVars.end()){
-          unionInitializedVars.erase(ins);
-        }
-        // errs() << "....Done.\n";
-      }
+      // for(Instruction* ins : killedInitializedVars){
+      //   // errs() << "try dumping...";
+      //   // ins -> dump();
+      //   if(unionInitializedVars.find(ins) != unionInitializedVars.end()){
+      //     unionInitializedVars.erase(ins);
+      //   }
+      //   // errs() << "....Done.\n";
+      // }
       // unionInitializedVars.erase(killedInitializedVars.cbegin(), killedInitializedVars.cend());
       analysisMap[BB] = unionInitializedVars;
-      errs() << "AfterAll: \n";
-      for(Instruction* ins : unionInitializedVars){
-        ins-> dump();
-      }
+      // errs() << "AfterAll: \n";
+      // for(Instruction* ins : unionInitializedVars){
+      //   ins-> dump();
+      // }
       // Extract the last instruction in the stack (Terminator Instruction)
       const TerminatorInst *TInst = BB->getTerminator();
 
@@ -270,7 +270,7 @@ std::set<Instruction*> union_sets(std::set<Instruction*>A, std::set<Instruction*
      return A;
 }
 
-std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock* BB, std::set<Instruction*> secretVars){
+std::set<Instruction*> detectTaint(BasicBlock* BB, std::set<Instruction*> secretVars){
   //copy the secret vars array
   //but I dont understand, why have to copy?
   std::set<Instruction*> newSecretVars(secretVars);
@@ -321,10 +321,10 @@ std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock*
       //then, put the variable into the secret set.
       if (op1 != nullptr && newSecretVars.find(op1) != newSecretVars.end()){
          newSecretVars.insert(op2); 
-         kilSecretVars.erase(op2);
+         // kilSecretVars.erase(op2);
       }else if(op1 != nullptr || (newSecretVars.find(op1) == newSecretVars.end() && newSecretVars.find(op2) != newSecretVars.end())){
          newSecretVars.erase(op2);
-         kilSecretVars.insert(op2);
+         // kilSecretVars.insert(op2);
       }else{
         ;
       }
@@ -342,8 +342,8 @@ std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock*
         // for each assignment, if the FV contains secret, then the assigned also.
         if (inst != nullptr && newSecretVars.find(inst) != newSecretVars.end()){
           newSecretVars.insert(dyn_cast<Instruction>(&I));
-          if(kilSecretVars.find(&I) != kilSecretVars.end())
-            kilSecretVars.erase(dyn_cast<Instruction>(&I));
+          // if(kilSecretVars.find(&I) != kilSecretVars.end())
+          //   kilSecretVars.erase(dyn_cast<Instruction>(&I));
           flag = true;
         }
       }
@@ -352,11 +352,11 @@ std::pair<std::set<Instruction*>,std::set<Instruction*>> detectTaint(BasicBlock*
         // I.dump();
         // errs() << "\n";
         kilSecretVars.insert(dyn_cast<Instruction>(&I));
-        if(newSecretVars.find(&I) != newSecretVars.end())
-          newSecretVars.erase(dyn_cast<Instruction>(&I));
+        // if(newSecretVars.find(&I) != newSecretVars.end())
+        //   newSecretVars.erase(dyn_cast<Instruction>(&I));
       }
     }
   }
-  return std::make_pair(newSecretVars,kilSecretVars);
+  return newSecretVars;
 }
 

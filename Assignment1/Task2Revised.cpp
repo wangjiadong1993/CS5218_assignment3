@@ -32,7 +32,7 @@ using namespace llvm;
 void generateCFG(BasicBlock*,std::map<BasicBlock*,std::set<Instruction*>>&);
 
 // for each block
-std::set<Instruction*> checkLeakage(BasicBlock*,std::set<Instruction*>);
+std::pair<std::set<Instruction*>, std::set<Instruction*>> checkLeakage(BasicBlock*,std::set<Instruction*>);
 
 int main(int argc, char **argv)
 {
@@ -134,8 +134,11 @@ void generateCFG(BasicBlock* BB, std::map<BasicBlock*,std::set<Instruction*>> & 
   // Get the exit
   //Check the leakage inside the Basic Block
   //If found any, put inside the secret vars.
-  std::set<Instruction*> newSecretVars = checkLeakage(BB,analysisMap[BB]);
+  std::pair<std::set<Instruction*>, std::set<Instruction*>> vars = checkLeakage(BB,analysisMap[BB]);
+  std::set<Instruction*> newSecretVars = vars.first;
+  std::set<Instruction*> killSecretVars = vars.second;
   analysisMap[BB].insert(newSecretVars.begin(), newSecretVars.end());
+  analysisMap[BB].erase(killSecretVars.begin(), killSecretVars.end());
   // analysisMap[BB].insert(newSecretVars.begin(), newSecretVars.end());
   // Pass secretVars list to child BBs and check them
   // Iteratively
@@ -152,6 +155,7 @@ void generateCFG(BasicBlock* BB, std::map<BasicBlock*,std::set<Instruction*>> & 
     //the successor is a basic block.
     BasicBlock *Succ = TInst->getSuccessor(i); 
     analysisMap[Succ].insert(newSecretVars.begin(), newSecretVars.end());
+    analysisMap[Succ].erase(killSecretVars.begin(), killSecretVars.end());
     //do the check.  
     generateCFG(Succ, analysisMap);
   }
@@ -177,13 +181,12 @@ void generateCFG(BasicBlock* BB, std::map<BasicBlock*,std::set<Instruction*>> & 
 
 //So basically, this function just get a list of variables that
 //are contaminated by the secrets.
-std::set<Instruction*> checkLeakage(BasicBlock* BB,
-				    std::set<Instruction*> secretVars)
+std::pair<std::set<Instruction*>, std::set<Instruction*>> checkLeakage(BasicBlock* BB, std::set<Instruction*> secretVars)
 {
   //copy the secret vars array
   //but I dont understand, why have to copy?
   std::set<Instruction*> newSecretVars(secretVars);
-  
+  std::set<Instruction*> killSecretVars;
   // Loop through instructions in BB
   //I instructions, pass by reference
   for (auto &I: *BB)
@@ -209,15 +212,25 @@ std::set<Instruction*> checkLeakage(BasicBlock* BB,
       //operand 1: the variable
       Value* v = I.getOperand(0);
       Instruction* op1 = dyn_cast<Instruction>(v); 
+
+      v = I.getOperand(1);
+      Instruction* op2 = dyn_cast<Instruction>(v); 
       // If the FV is part of the secrets, insert the assigned variable
       //if the value expression is not NULL
       //if we can find it inside the secrets
       //then, put the variable into the secret set.
       if (op1 != nullptr && newSecretVars.find(op1) != newSecretVars.end()){
-	       newSecretVars.insert(dyn_cast<Instruction>(I.getOperand(1)));	
+	       newSecretVars.insert(op2);	
+      }else if(op1 != nullptr && newSecretVars.find(op1) == newSecretVars.end() && newSecretVars.find(op2) != newSecretVars.end()){
+         newSecretVars.erase(op2);
+         killSecretVars.insert(op2);
+      }else{
+        ;
       }
+
     }else{	
-    // Check all other instructions
+      // Check all other instructions
+      bool flag = false;
       for (auto op = I.op_begin(); op != I.op_end(); op++) {
 	      
 
@@ -227,10 +240,16 @@ std::set<Instruction*> checkLeakage(BasicBlock* BB,
         
 
         // for each assignment, if the FV contains secret, then the assigned also.
-        if (inst != nullptr && newSecretVars.find(inst) != newSecretVars.end())
+        if (inst != nullptr && newSecretVars.find(inst) != newSecretVars.end()){
 	        newSecretVars.insert(dyn_cast<Instruction>(&I));
+          flag = true;
+        }
+      }
+      if(!flag){
+        killSecretVars.insert(dyn_cast<Instruction>(&I));
+        newSecretVars.erase(dyn_cast<Instruction>(&I));
       }
     }
   }
-  return newSecretVars;
+  return std::make_pair(newSecretVars,killSecretVars);
 }
