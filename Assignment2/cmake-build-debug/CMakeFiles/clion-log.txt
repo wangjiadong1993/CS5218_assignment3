@@ -1,0 +1,4 @@
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/Users/wangjiadong/Downloads/llvm/bin/clang -DCMAKE_CXX_COMPILER=/Users/wangjiadong/Downloads/llvm/bin/clang++ -G "CodeBlocks - Unix Makefiles" /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment_new
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment_new/cmake-build-debug

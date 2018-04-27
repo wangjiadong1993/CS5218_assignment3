@@ -35,8 +35,8 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="430" column="37" lean-forward="true" selection-start-line="430" selection-start-column="37" selection-end-line="430" selection-end-column="37" />
+            <state relative-caret-position="445">
+              <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
               <folding>
                 <element signature="e#818#8345#1" />
                 <element signature="e#8753#8989#0" />
@@ -164,12 +164,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1524487905622</updated>
-      <workItem from="1524487907225" duration="14696000" />
+      <workItem from="1524487907225" duration="14932000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14696000" />
+    <option name="totallyTimeSpent" value="14932000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
@@ -245,8 +245,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="430" column="37" lean-forward="true" selection-start-line="430" selection-start-column="37" selection-end-line="430" selection-end-column="37" />
+        <state relative-caret-position="445">
+          <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
           <folding>
             <element signature="e#818#8345#1" />
             <element signature="e#8753#8989#0" />

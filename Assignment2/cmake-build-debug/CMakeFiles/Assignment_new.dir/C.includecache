@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment_new/example2.c
+
+/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment_new/example3.c
+
