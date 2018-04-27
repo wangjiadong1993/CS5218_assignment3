@@ -48,10 +48,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New
+CMAKE_SOURCE_DIR = /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/CMakeFiles /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/CMakeFiles /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Assignment3New
+# Target rules for targets named Assignment3
 
 # Build rule for target.
-Assignment3New: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Assignment3New
-.PHONY : Assignment3New
+Assignment3: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Assignment3
+.PHONY : Assignment3
 
 # fast build rule for target.
-Assignment3New/fast:
-	$(MAKE) -f CMakeFiles/Assignment3New.dir/build.make CMakeFiles/Assignment3New.dir/build
-.PHONY : Assignment3New/fast
+Assignment3/fast:
+	$(MAKE) -f CMakeFiles/Assignment3.dir/build.make CMakeFiles/Assignment3.dir/build
+.PHONY : Assignment3/fast
 
 IntervalAnalysis.o: IntervalAnalysis.cpp.o
 
@@ -129,7 +129,7 @@ IntervalAnalysis.o: IntervalAnalysis.cpp.o
 
 # target to build an object file
 IntervalAnalysis.cpp.o:
-	$(MAKE) -f CMakeFiles/Assignment3New.dir/build.make CMakeFiles/Assignment3New.dir/IntervalAnalysis.cpp.o
+	$(MAKE) -f CMakeFiles/Assignment3.dir/build.make CMakeFiles/Assignment3.dir/IntervalAnalysis.cpp.o
 .PHONY : IntervalAnalysis.cpp.o
 
 IntervalAnalysis.i: IntervalAnalysis.cpp.i
@@ -138,7 +138,7 @@ IntervalAnalysis.i: IntervalAnalysis.cpp.i
 
 # target to preprocess a source file
 IntervalAnalysis.cpp.i:
-	$(MAKE) -f CMakeFiles/Assignment3New.dir/build.make CMakeFiles/Assignment3New.dir/IntervalAnalysis.cpp.i
+	$(MAKE) -f CMakeFiles/Assignment3.dir/build.make CMakeFiles/Assignment3.dir/IntervalAnalysis.cpp.i
 .PHONY : IntervalAnalysis.cpp.i
 
 IntervalAnalysis.s: IntervalAnalysis.cpp.s
@@ -147,7 +147,7 @@ IntervalAnalysis.s: IntervalAnalysis.cpp.s
 
 # target to generate assembly for a file
 IntervalAnalysis.cpp.s:
-	$(MAKE) -f CMakeFiles/Assignment3New.dir/build.make CMakeFiles/Assignment3New.dir/IntervalAnalysis.cpp.s
+	$(MAKE) -f CMakeFiles/Assignment3.dir/build.make CMakeFiles/Assignment3.dir/IntervalAnalysis.cpp.s
 .PHONY : IntervalAnalysis.cpp.s
 
 # Help Target
@@ -158,7 +158,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... Assignment3New"
+	@echo "... Assignment3"
 	@echo "... IntervalAnalysis.o"
 	@echo "... IntervalAnalysis.i"
 	@echo "... IntervalAnalysis.s"

@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug"/>
+				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug"/>
+				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug"/>
+				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Assignment3New">
-				<Option output="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Assignment3New" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug"/>
+			<Target title="Assignment3">
+				<Option output="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Assignment3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
@@ -53,15 +53,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment3New"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment3"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Assignment3New/fast">
-				<Option output="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Assignment3New" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug"/>
+			<Target title="Assignment3/fast">
+				<Option output="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Assignment3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="clang"/>
@@ -75,17 +75,17 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment3New/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment3/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/IntervalAnalysis.cpp">
-			<Option target="Assignment3New"/>
+		<Unit filename="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/IntervalAnalysis.cpp">
+			<Option target="Assignment3"/>
 		</Unit>
-		<Unit filename="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3New/CMakeLists.txt">
+		<Unit filename="/Users/wangjiadong/Documents/projects/MCOMP/Yr1Sem1/CS5218_PPA/Assignment/Assignment3/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

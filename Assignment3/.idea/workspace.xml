@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="Assignment3New" targetName="Assignment3New" />
+      <config projectName="Assignment3New" targetName="Assignment3" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -22,12 +22,12 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+              <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -35,28 +35,18 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
-              <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
+            <state relative-caret-position="315">
+              <caret line="634" column="108" lean-forward="true" selection-start-line="634" selection-start-column="108" selection-end-line="634" selection-end-column="108" />
               <folding>
-                <element signature="e#818#8345#1" />
-                <element signature="e#8753#8989#0" />
-                <element signature="e#8991#9215#0" />
-                <element signature="e#17397#17424#0" />
-                <element signature="e#17565#17614#0" />
-                <element signature="e#17719#17765#0" />
-                <element signature="e#17880#17923#0" />
-                <element signature="e#16538#18199#0" />
-                <element signature="e#18201#20209#0" />
-                <element signature="e#20211#23941#0" />
-                <element signature="e#23943#27111#0" />
-                <element signature="e#27113#30367#0" />
-                <element signature="e#30369#32759#0" />
-                <element signature="e#32761#33910#0" />
-                <element signature="e#33912#35259#0" />
-                <element signature="e#35261#35608#0" />
-                <element signature="e#35610#36515#0" />
-                <element signature="e#36517#37418#0" />
-                <element signature="e#37420#42668#0" />
+                <element signature="e#13886#14391#0" />
+                <element signature="e#14393#14705#0" />
+                <element signature="e#14707#15167#0" />
+                <element signature="e#21801#23462#0" />
+                <element signature="e#25474#29204#0" />
+                <element signature="e#29206#32374#0" />
+                <element signature="e#32376#35630#0" />
+                <element signature="e#35632#38022#0" />
+                <element signature="e#38024#39173#0" />
               </folding>
             </state>
           </provider>
@@ -83,13 +73,18 @@
       <file leaf-file-name="example2.ll" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example2.ll">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
+            <state relative-caret-position="391">
               <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>count</find>
+    </findStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -105,9 +100,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="1280" />
+    <option name="width" value="785" />
     <option name="height" value="777" />
   </component>
   <component name="ProjectView">
@@ -131,6 +127,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -146,12 +143,12 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Assignment3New">
-    <configuration name="Assignment3New" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Assignment3New" TARGET_NAME="Assignment3New" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Assignment3New" RUN_TARGET_NAME="Assignment3New" />
+  <component name="RunManager" selected="Application.Assignment3">
+    <configuration name="Assignment3" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Assignment3New" TARGET_NAME="Assignment3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Assignment3New" RUN_TARGET_NAME="Assignment3" />
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all" />
     <list>
       <item itemvalue="Application.Build All" />
-      <item itemvalue="Application.Assignment3New" />
+      <item itemvalue="Application.Assignment3" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -165,33 +162,34 @@
       <option name="presentableId" value="Default" />
       <updated>1524487905622</updated>
       <workItem from="1524487907225" duration="14932000" />
+      <workItem from="1524845110595" duration="5814000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14932000" />
+    <option name="totallyTimeSpent" value="20746000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="777" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="CMake" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="CMake" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,13 +199,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -215,6 +206,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/example2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example1.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9843">
+          <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
+          <folding>
+            <element signature="e#13886#14391#0" />
+            <element signature="e#14393#14705#0" />
+            <element signature="e#14707#15167#0" />
+            <element signature="e#21801#23462#0" />
+            <element signature="e#25474#29204#0" />
+            <element signature="e#29206#32374#0" />
+            <element signature="e#32376#35630#0" />
+            <element signature="e#35632#38022#0" />
+            <element signature="e#38024#39173#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
     <entry file="file://$PROJECT_DIR$/example1.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -231,7 +262,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example2.ll">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
+        <state relative-caret-position="391">
           <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
         </state>
       </provider>
@@ -243,30 +274,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
+        <state relative-caret-position="315">
+          <caret line="634" column="108" lean-forward="true" selection-start-line="634" selection-start-column="108" selection-end-line="634" selection-end-column="108" />
           <folding>
-            <element signature="e#818#8345#1" />
-            <element signature="e#8753#8989#0" />
-            <element signature="e#8991#9215#0" />
-            <element signature="e#17397#17424#0" />
-            <element signature="e#17565#17614#0" />
-            <element signature="e#17719#17765#0" />
-            <element signature="e#17880#17923#0" />
-            <element signature="e#16538#18199#0" />
-            <element signature="e#18201#20209#0" />
-            <element signature="e#20211#23941#0" />
-            <element signature="e#23943#27111#0" />
-            <element signature="e#27113#30367#0" />
-            <element signature="e#30369#32759#0" />
-            <element signature="e#32761#33910#0" />
-            <element signature="e#33912#35259#0" />
-            <element signature="e#35261#35608#0" />
-            <element signature="e#35610#36515#0" />
-            <element signature="e#36517#37418#0" />
-            <element signature="e#37420#42668#0" />
+            <element signature="e#13886#14391#0" />
+            <element signature="e#14393#14705#0" />
+            <element signature="e#14707#15167#0" />
+            <element signature="e#21801#23462#0" />
+            <element signature="e#25474#29204#0" />
+            <element signature="e#29206#32374#0" />
+            <element signature="e#32376#35630#0" />
+            <element signature="e#35632#38022#0" />
+            <element signature="e#38024#39173#0" />
           </folding>
         </state>
       </provider>
