@@ -372,6 +372,38 @@ void printAnalysisMap(std::map<BasicBlock *, std::map<Instruction *, varInterval
                       std::map<std::string, Instruction *> &instructionMap);
 
 
+void printBasicBlockContext(std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> context) {
+    for (auto &p : context) {
+        std::cout << getBasicBlockLabel(p.first) << std::endl;
+        for (auto &pp : p.second) {
+            std::cout << "Case:" << std::endl;
+            for (auto &ppp : pp) {
+                std::cout << getInstructionString(*(ppp.first)) << "  >>  " << ppp.second.getIntervalString()
+                          << std::endl;
+            }
+        }
+    }
+}
+
+void generateContextCombination(std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> &context,
+                                std::vector<std::map<Instruction *, varInterval>> &contextCombination) {
+    if (context.size() == 0) {
+        return;
+    }
+    auto element = context.begin();
+
+}
+
+void printcontextCombination(std::vector<std::map<Instruction *, varInterval>> &contextCombination){
+    for(auto &combination : contextCombination){
+        std::cout << "================Context=============" << std::endl;
+        for(auto &combination_pair : combination){
+            std::cout << getInstructionString(*(combination_pair.first)) << "  >>  " << combination_pair.second.getIntervalString()
+                      << std::endl;
+        }
+    }
+}
+
 //main function
 int main(int argc, char **argv) {
     //Preparation
@@ -395,6 +427,7 @@ int main(int argc, char **argv) {
     traversalStack.push(std::make_pair(entryBB, emptySet));
     // Recursive
     int count = 0;
+
     while (!traversalStack.empty()) {
         count++;
         std::map<BasicBlock *, std::map<Instruction *, varInterval>> result;
@@ -443,7 +476,116 @@ int main(int argc, char **argv) {
             std::cin.get();
         }
     }
-    printAnalysisMap(analysisMap, instructionMap);
+
+//    printAnalysisMap(analysisMap, instructionMap);
+
+    /**
+     * for each basic block, generate the context
+     */
+    std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> context;
+
+    for (auto &p : analysisMap) {
+        BasicBlock *BB = p.first;
+        std::map<Instruction *, varInterval> bbOutput = p.second;
+        std::map<BasicBlock *, std::map<Instruction *, varInterval>> result;
+        /**
+         * for each basic block, find the br instruction
+         */
+        for (auto &I: *BB) {
+            if (I.getOpcode() == Instruction::Br) {
+                /**
+                 * analyze the block backward
+                 */
+                analyzeBr(BB, I, bbOutput, instructionMap, result);
+                /**
+                 * if ret, or unconditional br, ignore
+                 */
+                if (result.size() <= 1)
+                    break;
+                /**
+                 * for conditional br, record the result
+                 */
+                for (auto &pp : result) {
+                    context[BB].push_back(pp.second);
+                }
+                /**
+                 * for two conditions, remove the variables, that have idential varInterval in two conditions
+                 */
+                for (auto it_0 = context[BB][0].begin(); it_0 != context[BB][0].end();) {
+                    bool broke = false;
+                    for (auto it_1 = context[BB][1].begin(); it_1 != context[BB][1].end();) {
+                        if (it_0->second.getIntervalString() == it_1->second.getIntervalString()) {
+                            it_0 = context[BB][0].erase(it_0);
+                            it_1 = context[BB][1].erase(it_1);
+                            broke = true;
+                            break;
+                        }
+                        ++it_1;
+                    }
+                    if (!broke)
+                        ++it_0;
+                }
+                break;
+            }
+        }
+    }
+    /**
+     * finish generating the context for each block
+     */
+//    std::map<BasicBlock*, std::vector<std::map<Instruction*, varInterval>>> context;
+    printBasicBlockContext(context);
+
+    /**
+     * generates different context combinations
+     */
+    std::vector<std::map<Instruction *, varInterval>> contextCombination;
+
+    //for each context
+    for (auto context_pair : context) {
+        /**
+         * context_pair: pair(BasicBlock*, std::vector<std::map<Instruction*, varInterval>>)
+         * >>>>Basic Block: %2
+         * Case:
+         *  %N = alloca i32, align 4  >>  1-INF_POS
+         *  %5 = load i32* %N, align 4  >>  1-INF_POS
+         *Case:
+         *  %N = alloca i32, align 4  >>  INF_NEG-0
+         *  %5 = load i32* %N, align 4  >>  INF_NEG-0
+         *>>>>Basic Block: %7
+         *Case:
+         *  %a = alloca i32, align 4  >>  1-6
+         *  %8 = load i32* %a, align 4  >>  1-6
+         *Case:
+         *  %a = alloca i32, align 4  >>  -5-0
+         *  %8 = load i32* %a, align 4  >>  -5-0
+         */
+        auto contextCombinationBackUp = contextCombination;
+        contextCombination.clear();
+        //for each case
+        for (auto context_pair_map : context_pair.second) {
+            /**
+            * context_pair_map: std::map<Instruction*, varInterval>)
+            * * >>>>Basic Block: %2
+            * Case:
+            *  %N = alloca i32, align 4  >>  1-INF_POS
+            *  %5 = load i32* %N, align 4  >>  1-INF_POS
+            *Case:
+            *  %N = alloca i32, align 4  >>  INF_NEG-0
+            *  %5 = load i32* %N, align 4  >>  INF_NEG-0
+            */
+            for (auto temp_map : contextCombinationBackUp) {
+                /**
+                 * temp_pair: std::map<Instruction *, varInterval>
+                 */
+                temp_map.insert(context_pair_map.begin(), context_pair_map.end());
+                contextCombination.push_back(temp_map);
+            }
+        }
+    }
+    printcontextCombination(contextCombination);
+
+
+
 }
 
 bool unionAndCheckChanged(std::map<Instruction *, varInterval> &input,

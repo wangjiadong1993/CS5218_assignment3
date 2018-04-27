@@ -35,13 +35,16 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+            <state relative-caret-position="366">
+              <caret line="430" column="37" lean-forward="true" selection-start-line="430" selection-start-column="37" selection-end-line="430" selection-end-column="37" />
               <folding>
                 <element signature="e#818#8345#1" />
                 <element signature="e#8753#8989#0" />
                 <element signature="e#8991#9215#0" />
-                <element signature="e#13865#16536#0" />
+                <element signature="e#17397#17424#0" />
+                <element signature="e#17565#17614#0" />
+                <element signature="e#17719#17765#0" />
+                <element signature="e#17880#17923#0" />
                 <element signature="e#16538#18199#0" />
                 <element signature="e#18201#20209#0" />
                 <element signature="e#20211#23941#0" />
@@ -54,8 +57,34 @@
                 <element signature="e#35610#36515#0" />
                 <element signature="e#36517#37418#0" />
                 <element signature="e#37420#42668#0" />
-                <element signature="e#42670#45204#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="example2.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example2.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="example1.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example1.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="example2.ll" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example2.ll">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="312">
+              <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -76,8 +105,8 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="62" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="777" />
   </component>
@@ -135,18 +164,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1524487905622</updated>
-      <workItem from="1524487907225" duration="460000" />
+      <workItem from="1524487907225" duration="14696000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="460000" />
+    <option name="totallyTimeSpent" value="14696000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="CMake" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
@@ -186,15 +215,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/example1.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="1075" column="14" selection-start-line="1075" selection-start-column="14" selection-end-line="1075" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        <state relative-caret-position="366">
+          <caret line="430" column="37" lean-forward="true" selection-start-line="430" selection-start-column="37" selection-end-line="430" selection-end-column="37" />
           <folding>
             <element signature="e#818#8345#1" />
             <element signature="e#8753#8989#0" />
             <element signature="e#8991#9215#0" />
-            <element signature="e#13865#16536#0" />
+            <element signature="e#17397#17424#0" />
+            <element signature="e#17565#17614#0" />
+            <element signature="e#17719#17765#0" />
+            <element signature="e#17880#17923#0" />
             <element signature="e#16538#18199#0" />
             <element signature="e#18201#20209#0" />
             <element signature="e#20211#23941#0" />
@@ -207,7 +267,6 @@
             <element signature="e#35610#36515#0" />
             <element signature="e#36517#37418#0" />
             <element signature="e#37420#42668#0" />
-            <element signature="e#42670#45204#0" />
           </folding>
         </state>
       </provider>
