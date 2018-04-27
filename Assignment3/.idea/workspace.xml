@@ -35,8 +35,8 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="782" lean-forward="true" selection-start-line="782" selection-end-line="782" />
+            <state relative-caret-position="163">
+              <caret line="859" column="53" lean-forward="true" selection-start-line="859" selection-start-column="53" selection-end-line="859" selection-end-column="53" />
               <folding>
                 <element signature="e#817#8359#1" />
                 <element signature="e#13886#14391#0" />
@@ -48,10 +48,20 @@
                 <element signature="e#28631#30746#0" />
                 <element signature="e#29916#30660#0" />
                 <element signature="e#30896#31718#0" />
+                <element signature="e#31722#32586#0" />
+                <element signature="e#32975#33429#0" />
+                <element signature="e#34324#35051#0" />
+                <element signature="e#34476#35218#0" />
+                <element signature="e#23464#25472#0" />
+                <element signature="e#32556#36245#1" />
                 <element signature="e#29206#32374#0" />
                 <element signature="e#32376#35630#0" />
                 <element signature="e#35632#38022#0" />
                 <element signature="e#38024#39173#0" />
+                <element signature="e#39175#40522#0" />
+                <element signature="e#40524#40871#0" />
+                <element signature="e#41475#42337#1" />
+                <element signature="e#41780#42681#0" />
               </folding>
             </state>
           </provider>
@@ -89,6 +99,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>count</find>
+      <find>std::map&lt;std::map&lt;Instruction *, varInterval&gt;, std::map&lt;Instruction *, varInterval&gt;</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -167,12 +178,12 @@
       <option name="presentableId" value="Default" />
       <updated>1524487905622</updated>
       <workItem from="1524487907225" duration="14932000" />
-      <workItem from="1524845110595" duration="10156000" />
+      <workItem from="1524845110595" duration="12915000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25088000" />
+    <option name="totallyTimeSpent" value="27847000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
@@ -252,10 +263,20 @@
             <element signature="e#28631#30746#0" />
             <element signature="e#29916#30660#0" />
             <element signature="e#30896#31718#0" />
+            <element signature="e#31722#32586#0" />
+            <element signature="e#32975#33429#0" />
+            <element signature="e#34324#35051#0" />
+            <element signature="e#34476#35218#0" />
+            <element signature="e#23464#25472#0" />
+            <element signature="e#32556#36245#1" />
             <element signature="e#29206#32374#0" />
             <element signature="e#32376#35630#0" />
             <element signature="e#35632#38022#0" />
             <element signature="e#38024#39173#0" />
+            <element signature="e#39175#40522#0" />
+            <element signature="e#40524#40871#0" />
+            <element signature="e#41475#42337#1" />
+            <element signature="e#41780#42681#0" />
           </folding>
         </state>
       </provider>
@@ -296,10 +317,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/llvm/IR/Constants.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="782" lean-forward="true" selection-start-line="782" selection-end-line="782" />
+        <state relative-caret-position="163">
+          <caret line="859" column="53" lean-forward="true" selection-start-line="859" selection-start-column="53" selection-end-line="859" selection-end-column="53" />
           <folding>
             <element signature="e#817#8359#1" />
             <element signature="e#13886#14391#0" />
@@ -311,10 +339,20 @@
             <element signature="e#28631#30746#0" />
             <element signature="e#29916#30660#0" />
             <element signature="e#30896#31718#0" />
+            <element signature="e#31722#32586#0" />
+            <element signature="e#32975#33429#0" />
+            <element signature="e#34324#35051#0" />
+            <element signature="e#34476#35218#0" />
+            <element signature="e#23464#25472#0" />
+            <element signature="e#32556#36245#1" />
             <element signature="e#29206#32374#0" />
             <element signature="e#32376#35630#0" />
             <element signature="e#35632#38022#0" />
             <element signature="e#38024#39173#0" />
+            <element signature="e#39175#40522#0" />
+            <element signature="e#40524#40871#0" />
+            <element signature="e#41475#42337#1" />
+            <element signature="e#41780#42681#0" />
           </folding>
         </state>
       </provider>

@@ -689,7 +689,7 @@ std::vector<varInterval> getOperandIntervals(Instruction &I,
                                              Value *op2,
                                              std::map<Instruction *, varInterval> context,
                                              std::map<Instruction *, varInterval> &variables,
-                                             std::map<std::string, Instruction*> &instructionMap) {
+                                             std::map<std::string, Instruction *> &instructionMap) {
     bool isInContext = context.find(&I) != context.end();
     varInterval interval_op1;
     varInterval interval_op2;
@@ -765,8 +765,8 @@ void analyzeMulWithContext(Instruction &I,
 }
 
 void analyzeSremWithContext(Instruction &I,
-                           std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
-                           std::map<std::string, Instruction *> &instructionMap) {
+                            std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                            std::map<std::string, Instruction *> &instructionMap) {
     for (auto &pair : blockMap) {
         auto context = pair.first;
         auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), pair.first, pair.second, instructionMap);
@@ -780,6 +780,142 @@ void analyzeSremWithContext(Instruction &I,
     }
 }
 
+
+void analyzeStoreWithContext(Instruction &I,
+                             std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                             std::map<std::string, Instruction *> &instructionMap) {
+    Value *op1 = I.getOperand(0);
+    Value *op2 = I.getOperand(1);
+    varInterval temp;
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto variables = pair.second;
+        if (isa<llvm::ConstantInt>(op1)) {
+            auto op1_val = dyn_cast<llvm::ConstantInt>(op1)->getZExtValue();
+            temp = varInterval(op1_val, op1_val);
+        } else {
+            auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
+            temp = context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr];
+        }
+        auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
+        if (context.find(op2_instr) != context.end()) {
+            if (varInterval::getIntersection(temp, context[op2_instr]).isEmpty())
+                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        } else {
+            pair.second[op2_instr] = temp;
+        }
+    }
+}
+
+void analyzeLoadWithContext(Instruction &I,
+                            std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                            std::map<std::string, Instruction *> &instructionMap) {
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto variables = pair.second;
+        varInterval temp;
+        auto *op_instruction = dyn_cast<Instruction>(I.getOperand(0));
+        auto op_instr = instructionMap[getInstructionString(*op_instruction)];
+        temp = context.find(op_instr) != context.end() ? context[op_instr] : variables[op_instr];
+
+        if (context.find(&I) != context.end()) {
+            if (varInterval::getIntersection(temp, context[&I]).isEmpty())
+                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        } else {
+            pair.second[&I] = varInterval(varInterval::INF_NEG, varInterval::INF_POS);
+        }
+    }
+}
+
+void analyzeAllocaWithContext(Instruction &I,
+                              std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                              std::map<std::string, Instruction *> &instructionMap) {
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto variables = pair.second;
+        if (context.find(&I) != context.end()) { ;
+        } else {
+            pair.second[&I] = varInterval(varInterval::INF_NEG, varInterval::INF_POS);
+        }
+    }
+}
+
+void analyzeBrWithContext(Instruction &I,
+                          std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                          std::map<std::string, Instruction *> &instructionMap,
+                          std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> &result) {
+    auto *branchInst = dyn_cast<BranchInst>(&I);
+    auto *bb_op1 = branchInst->getSuccessor(0);
+    if (!(branchInst->isConditional())) {
+        result[bb_op1] = blockMap;
+        return;
+    }
+    auto *bb_op2 = dyn_cast<BasicBlock>(branchInst->getSuccessor(1));
+    result[bb_op1] = blockMap;
+    result[bb_op2] = blockMap;
+}
+
+
+bool unionAndCheckChangedWithContext(
+        std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &input,
+        std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &analysisMap) {
+    bool changed = false;
+    for (auto &context : input) {
+        /**
+         * Each context
+         */
+         for(auto &pair : context.second){
+             if (analysisMap.find(p.first) == analysisMap.end()) {
+                 analysisMap[p.first] = p.second;
+                 changed = true;
+             } else if (analysisMap[p.first].isEmpty()) {
+                 if (!p.second.isEmpty()) {
+                     analysisMap[p.first] = p.second;
+                     changed = true;
+                 }
+             } else if (!(p.second <= analysisMap[p.first])) {
+                 analysisMap[p.first].setLower(std::min(p.second.getLower(), analysisMap[p.first].getLower()));
+                 analysisMap[p.first].setUpper(std::max(p.second.getUpper(), analysisMap[p.first].getUpper()));
+                 changed = true;
+             } else { ;
+             }
+         }
+
+    }
+    return changed;
+}
+
+std::vector<varInterval> getOperandIntervals(Instruction &I,
+                                             Value *op1,
+                                             Value *op2,
+                                             std::map<Instruction *, varInterval> context,
+                                             std::map<Instruction *, varInterval> &variables,
+                                             std::map<std::string, Instruction *> &instructionMap) {
+    bool isInContext = context.find(&I) != context.end();
+    varInterval interval_op1;
+    varInterval interval_op2;
+    if (isa<llvm::ConstantInt>(op2)) {
+        auto op2_val = dyn_cast<llvm::ConstantInt>(op2)->getZExtValue();
+        auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
+        interval_op1 = (context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr]);
+        interval_op2 = varInterval(op2_val, op2_val);
+
+    } else if (isa<llvm::ConstantInt>(op1)) {
+        auto op1_val = dyn_cast<llvm::ConstantInt>(op1)->getZExtValue();
+        auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
+        interval_op1 = varInterval(op1_val, op1_val);
+        interval_op2 = (context.find(op2_instr) != context.end() ? context[op2_instr] : variables[op2_instr]);
+    } else {
+        auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
+        auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
+        interval_op1 = context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr];
+        interval_op2 = context.find(op2_instr) != context.end() ? context[op2_instr] : variables[op2_instr];
+    }
+    std::vector<varInterval> results;
+    results.push_back(interval_op1);
+    results.push_back(interval_op2);
+    return results;
+}
 
 bool analyzeBlockWithContext(BasicBlock *BB,
                              std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &input,
@@ -806,26 +942,26 @@ bool analyzeBlockWithContext(BasicBlock *BB,
                 break;
             }
             case Instruction::Alloca: {
-                analyzeAlloca(I, input, instructionMap);
+                analyzeAllocaWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::Store: {
-                analyzeStore(I, input, instructionMap);
+                analyzeStoreWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::Load: {
-                analyzeLoad(I, input, instructionMap);
+                analyzeLoadWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::ICmp: {
                 break;
             }
             case Instruction::Br: {
-                analyzeBr(BB, I, input, instructionMap, result);
-                return unionAndCheckChanged(input, analysisMap[BB]);
+                analyzeBrWithContext(I, input, instructionMap, result);
+                return unionAndCheckChangedWithContext(input, contextAnalysisMap[BB]);
             }
             case Instruction::Ret: {
-                return unionAndCheckChanged(input, analysisMap[BB]);
+                return unionAndCheckChanged(input, contextAnalysisMap[BB]);
             }
             default: {
                 std::cout << "Unknown: " << I.getOpcodeName() << std::endl;
