@@ -35,23 +35,23 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="689" column="55" lean-forward="true" selection-start-line="689" selection-start-column="55" selection-end-line="689" selection-end-column="55" />
+            <state relative-caret-position="426">
+              <caret line="730" lean-forward="true" selection-start-line="730" selection-end-line="730" />
               <folding>
                 <element signature="e#817#8359#1" />
                 <element signature="e#13886#14391#0" />
-                <element signature="e#14393#14705#0" />
                 <element signature="e#14707#15167#0" />
-                <element signature="e#16157#24537#0" />
+                <element signature="e#15997#16883#0" />
+                <element signature="e#16916#25536#1" />
+                <element signature="e#24896#26775#0" />
                 <element signature="e#21801#23462#0" />
-                <element signature="e#26514#28526#0" />
                 <element signature="e#28631#30746#0" />
-                <element signature="e#29916#30660#0" />
                 <element signature="e#30896#31718#0" />
                 <element signature="e#31722#32586#0" />
                 <element signature="e#32975#33429#0" />
                 <element signature="e#34324#35051#0" />
                 <element signature="e#34476#35218#0" />
+                <element signature="e#35302#36540#0" />
                 <element signature="e#23464#25472#0" />
                 <element signature="e#32556#36245#1" />
                 <element signature="e#29206#32374#0" />
@@ -88,8 +88,8 @@
       <file leaf-file-name="example2.ll" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example2.ll">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+            <state relative-caret-position="347">
+              <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -100,6 +100,8 @@
     <findStrings>
       <find>count</find>
       <find>std::map&lt;std::map&lt;Instruction *, varInterval&gt;, std::map&lt;Instruction *, varInterval&gt;</find>
+      <find>getOperandIntervals(Instruction &amp;I</find>
+      <find>BasicBlock *, std::map&lt;std::map&lt;Instruction *, varInterval&gt; *, std::map&lt;Instruction *, varInterval&gt;&gt;</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -161,7 +163,7 @@
   </component>
   <component name="RunManager" selected="Application.Assignment3">
     <configuration name="Assignment3" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Assignment3New" TARGET_NAME="Assignment3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Assignment3New" RUN_TARGET_NAME="Assignment3" />
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all" />
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Assignment3New" RUN_TARGET_NAME="Assignment3" EXPLICIT_BUILD_TARGET_NAME="all" />
     <list>
       <item itemvalue="Application.Build All" />
       <item itemvalue="Application.Assignment3" />
@@ -178,12 +180,12 @@
       <option name="presentableId" value="Default" />
       <updated>1524487905622</updated>
       <workItem from="1524487907225" duration="14932000" />
-      <workItem from="1524845110595" duration="13054000" />
+      <workItem from="1524845110595" duration="15689000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27986000" />
+    <option name="totallyTimeSpent" value="30621000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
@@ -255,18 +257,18 @@
           <folding>
             <element signature="e#817#8359#1" />
             <element signature="e#13886#14391#0" />
-            <element signature="e#14393#14705#0" />
             <element signature="e#14707#15167#0" />
-            <element signature="e#16157#24537#0" />
+            <element signature="e#15997#16883#0" />
+            <element signature="e#16916#25536#1" />
+            <element signature="e#24896#26775#0" />
             <element signature="e#21801#23462#0" />
-            <element signature="e#26514#28526#0" />
             <element signature="e#28631#30746#0" />
-            <element signature="e#29916#30660#0" />
             <element signature="e#30896#31718#0" />
             <element signature="e#31722#32586#0" />
             <element signature="e#32975#33429#0" />
             <element signature="e#34324#35051#0" />
             <element signature="e#34476#35218#0" />
+            <element signature="e#35302#36540#0" />
             <element signature="e#23464#25472#0" />
             <element signature="e#32556#36245#1" />
             <element signature="e#29206#32374#0" />
@@ -296,13 +298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example2.ll">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example2.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -324,25 +319,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="689" column="55" lean-forward="true" selection-start-line="689" selection-start-column="55" selection-end-line="689" selection-end-column="55" />
+        <state relative-caret-position="426">
+          <caret line="730" lean-forward="true" selection-start-line="730" selection-end-line="730" />
           <folding>
             <element signature="e#817#8359#1" />
             <element signature="e#13886#14391#0" />
-            <element signature="e#14393#14705#0" />
             <element signature="e#14707#15167#0" />
-            <element signature="e#16157#24537#0" />
+            <element signature="e#15997#16883#0" />
+            <element signature="e#16916#25536#1" />
+            <element signature="e#24896#26775#0" />
             <element signature="e#21801#23462#0" />
-            <element signature="e#26514#28526#0" />
             <element signature="e#28631#30746#0" />
-            <element signature="e#29916#30660#0" />
             <element signature="e#30896#31718#0" />
             <element signature="e#31722#32586#0" />
             <element signature="e#32975#33429#0" />
             <element signature="e#34324#35051#0" />
             <element signature="e#34476#35218#0" />
+            <element signature="e#35302#36540#0" />
             <element signature="e#23464#25472#0" />
             <element signature="e#32556#36245#1" />
             <element signature="e#29206#32374#0" />
