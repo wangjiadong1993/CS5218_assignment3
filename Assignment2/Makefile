@@ -1,1 +1,0 @@
-~/Downloads/llvm/bin/clang++  -o DiffAnalysis DiffAnalysis.cpp `~/Downloads/llvm/bin/llvm-config --cxxflags` `~/Downloads/llvm/bin/llvm-config --ldflags` `~/Downloads/llvm/bin/llvm-config --libs` -lpthread -lncurses -ldl
