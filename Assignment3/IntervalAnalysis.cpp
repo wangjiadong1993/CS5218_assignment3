@@ -373,11 +373,11 @@ bool analyzeBlock(BasicBlock *BB, std::map<Instruction *, varInterval> &input,
                   std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
                   std::map<BasicBlock *, std::map<Instruction *, varInterval>> &result);
 
-bool analyzeBlockWithContext(BasicBlock *BB, std::map<Instruction *, varInterval> &input,
-                  std::map<std::string, Instruction *> &instructionMap,
-                  std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
-                  std::map<BasicBlock *, std::map<Instruction *, varInterval>> &result,
-                  std::map<Instruction *, varInterval> &context);
+bool analyzeBlockWithContext(BasicBlock *BB,
+                             std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &input,
+                             std::map<std::string, Instruction *> &instructionMap,
+                             std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> &contextAnalysisMap,
+                             std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> &result);
 
 /**
  * Printing Function
@@ -620,21 +620,20 @@ int main(int argc, char **argv) {
 
     //CONSTRUCT All Data Structures
     std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> contextAnalysisMap;
-
-    std::stack<std::pair<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> contextTraversalStack;
-
-    std::map<Instruction *, varInterval> _emptySet;
-    contextTraversalStack.push(std::make_pair(entryBB, _emptySet));
-
+    std::stack<std::pair<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>>> contextTraversalStack;
+    std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> initialSet;
+    for (auto &combination : contextCombination) {
+        std::map<Instruction *, varInterval> emptySet;
+        initialSet.insert(std::make_pair(combination, emptySet));
+    }
+    contextTraversalStack.push(std::make_pair(entryBB, initialSet));
 
     while (!contextTraversalStack.empty()) {
-        std::map<BasicBlock *, std::map<Instruction *, varInterval>> result;
-        auto pair = traversalStack.top();
+        std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> result;
+        auto pair = contextTraversalStack.top();
         contextTraversalStack.pop();
 
-        auto changed = analyzeBlockWithContext(pair.first, pair.second, instructionMap, analysisMap, result,
-                                               combination);
-
+        auto changed = analyzeBlockWithContext(pair.first, pair.second, instructionMap, contextAnalysisMap, result);
         if (changed) {
             for (auto &p : result) {
                 traversalStack.push(p);
@@ -685,45 +684,137 @@ bool unionAndCheckChanged(std::map<Instruction *, varInterval> &input,
     return changed;
 }
 
-bool analyzeBlockWithContext(BasicBlock *BB, std::map<Instruction *, varInterval> &input,
+std::vector<varInterval> getOperandIntervals(Instruction &I,
+                                             Value *op1,
+                                             Value *op2,
+                                             std::map<Instruction *, varInterval> context,
+                                             std::map<Instruction *, varInterval> &variables,
+                                             std::map<std::string, Instruction*> &instructionMap) {
+    bool isInContext = context.find(&I) != context.end();
+    varInterval interval_op1;
+    varInterval interval_op2;
+    if (isa<llvm::ConstantInt>(op2)) {
+        auto op2_val = dyn_cast<llvm::ConstantInt>(op2)->getZExtValue();
+        auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
+        interval_op1 = (context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr]);
+        interval_op2 = varInterval(op2_val, op2_val);
+
+    } else if (isa<llvm::ConstantInt>(op1)) {
+        auto op1_val = dyn_cast<llvm::ConstantInt>(op1)->getZExtValue();
+        auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
+        interval_op1 = varInterval(op1_val, op1_val);
+        interval_op2 = (context.find(op2_instr) != context.end() ? context[op2_instr] : variables[op2_instr]);
+    } else {
+        auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
+        auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
+        interval_op1 = context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr];
+        interval_op2 = context.find(op2_instr) != context.end() ? context[op2_instr] : variables[op2_instr];
+    }
+    std::vector<varInterval> results;
+    results.push_back(interval_op1);
+    results.push_back(interval_op2);
+    return results;
+}
+
+void analyzeAddWithContext(Instruction &I,
+                           std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                           std::map<std::string, Instruction *> &instructionMap) {
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), pair.first, pair.second, instructionMap);
+        varInterval temp = varInterval::add(result[0], result[1]);
+        if (pair.first.find(&I) != pair.first.end()) {
+            if (varInterval::getIntersection(temp, context[&I]).isEmpty())
+                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        } else {
+            pair.second[&I] = temp;
+        }
+    }
+}
+
+void analyzeSubWithContext(Instruction &I,
+                           std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                           std::map<std::string, Instruction *> &instructionMap) {
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), pair.first, pair.second, instructionMap);
+        varInterval temp = varInterval::sub(result[0], result[1]);
+        if (pair.first.find(&I) != pair.first.end()) {
+            if (varInterval::getIntersection(temp, context[&I]).isEmpty())
+                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        } else {
+            pair.second[&I] = temp;
+        }
+    }
+}
+
+void analyzeMulWithContext(Instruction &I,
+                           std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                           std::map<std::string, Instruction *> &instructionMap) {
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), pair.first, pair.second, instructionMap);
+        varInterval temp = varInterval::mul(result[0], result[1]);
+        if (pair.first.find(&I) != pair.first.end()) {
+            if (varInterval::getIntersection(temp, context[&I]).isEmpty())
+                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        } else {
+            pair.second[&I] = temp;
+        }
+    }
+}
+
+void analyzeSremWithContext(Instruction &I,
+                           std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &blockMap,
+                           std::map<std::string, Instruction *> &instructionMap) {
+    for (auto &pair : blockMap) {
+        auto context = pair.first;
+        auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), pair.first, pair.second, instructionMap);
+        varInterval temp = varInterval::rem(result[0], result[1]);
+        if (pair.first.find(&I) != pair.first.end()) {
+            if (varInterval::getIntersection(temp, context[&I]).isEmpty())
+                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        } else {
+            pair.second[&I] = temp;
+        }
+    }
+}
+
+
+bool analyzeBlockWithContext(BasicBlock *BB,
+                             std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>> &input,
                              std::map<std::string, Instruction *> &instructionMap,
-                             std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
-                             std::map<BasicBlock *, std::map<Instruction *, varInterval>> &result,
-                             std::map<Instruction *, varInterval> &context){
+                             std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> &contextAnalysisMap,
+                             std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval>, std::map<Instruction *, varInterval>>> &result) {
     //with context, the algo will differ a bit
     for (auto &I: *BB) {
-        if(context.find(&I) != context.end()){
-
-        }else{
-
-        }
         switch (I.getOpcode()) {
             case Instruction::Add: {
-                analyzeAdd(I, input, instructionMap, false);
+                analyzeAddWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::Sub: {
-                analyzeSub(I, input, instructionMap, false);
+                analyzeSubWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::Mul: {
-                analyzeMul(I, input, instructionMap, false);
+                analyzeMulWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::SRem: {
-                analyzeSrem(I, input, instructionMap, false);
+                analyzeSremWithContext(I, input, instructionMap);
                 break;
             }
             case Instruction::Alloca: {
-                analyzeAlloca(I, input, instructionMap, false);
+                analyzeAlloca(I, input, instructionMap);
                 break;
             }
             case Instruction::Store: {
-                analyzeStore(I, input, instructionMap, false);
+                analyzeStore(I, input, instructionMap);
                 break;
             }
             case Instruction::Load: {
-                analyzeLoad(I, input, instructionMap, false);
+                analyzeLoad(I, input, instructionMap);
                 break;
             }
             case Instruction::ICmp: {
