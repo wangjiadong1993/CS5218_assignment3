@@ -418,6 +418,22 @@ void printAnalysisMapWithContext(
     for (auto &pair : contextAnalysisMap) {
         std::cout << getBasicBlockLabel(pair.first) << std::endl;
         for (auto &context_variables : pair.second) {
+            bool isNotEmpty = true;
+            for (auto &context_pair : *context_variables.first){
+                if(context_pair.second.isEmpty()){
+                    isNotEmpty = false;
+                    break;
+                }
+            }
+            for (auto &variable_pair : context_variables.second){
+                if(variable_pair.second.isEmpty()){
+                    isNotEmpty = false;
+                    break;
+                }
+            }
+            if(!isNotEmpty){
+                continue;
+            }
             std::cout << "Context:  ====" << std::endl;
             for (auto &context_pair : *context_variables.first) {
                 std::cout << getInstructionString(*context_pair.first) << ">>"
@@ -635,7 +651,7 @@ int main(int argc, char **argv) {
     std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> initialSet;
     for (auto &combination : contextCombination) {
         std::map<Instruction *, varInterval> emptySet;
-        initialSet.insert(std::make_pair(&combination, emptySet));
+        initialSet.insert(std::make_pair(&combination, combination));
     }
     contextTraversalStack.push(std::make_pair(entryBB, initialSet));
 
@@ -729,6 +745,7 @@ bool unionAndCheckChanged(std::map<Instruction *, varInterval> &input,
     return changed;
 }
 
+
 void analyzeAddWithContext(Instruction &I,
                            std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> &blockMap,
                            std::map<std::string, Instruction *> &instructionMap) {
@@ -740,6 +757,10 @@ void analyzeAddWithContext(Instruction &I,
         if (pair.first->find(&I) != pair.first->end()) {
             if (varInterval::getIntersection(temp, context[&I]).isEmpty())
                 for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+            else{
+                pair.second[&I] = temp;
+            }
+
         } else {
             pair.second[&I] = temp;
         }
@@ -757,6 +778,9 @@ void analyzeSubWithContext(Instruction &I,
         if (pair.first->find(&I) != pair.first->end()) {
             if (varInterval::getIntersection(temp, context[&I]).isEmpty())
                 for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+            else{
+                pair.second[&I] = temp;
+            }
         } else {
             pair.second[&I] = temp;
         }
@@ -774,6 +798,9 @@ void analyzeMulWithContext(Instruction &I,
         if (pair.first->find(&I) != pair.first->end()) {
             if (varInterval::getIntersection(temp, context[&I]).isEmpty())
                 for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+            else{
+                pair.second[&I] = temp;
+            }
         } else {
             pair.second[&I] = temp;
         }
@@ -791,6 +818,9 @@ void analyzeSremWithContext(Instruction &I,
         if (pair.first->find(&I) != pair.first->end()) {
             if (varInterval::getIntersection(temp, context[&I]).isEmpty())
                 for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+            else{
+                pair.second[&I] = temp;
+            }
         } else {
             pair.second[&I] = temp;
         }
@@ -818,6 +848,9 @@ void analyzeStoreWithContext(Instruction &I,
         if (context.find(op2_instr) != context.end()) {
             if (varInterval::getIntersection(temp, context[op2_instr]).isEmpty())
                 for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+            else{
+                pair.second[op2_instr] = temp;
+            }
         } else {
             pair.second[op2_instr] = temp;
         }
@@ -901,7 +934,6 @@ bool unionAndCheckChangedWithContext(
             } else { ;
             }
         }
-
     }
     return changed;
 }
