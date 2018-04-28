@@ -83,6 +83,14 @@ public:
         }
     }
 
+    static varInterval getUnion(varInterval v1, varInterval v2) {
+        if (v1.getLower() == varInterval::INF_POS || v2.getLower() == varInterval::INF_POS) {
+            return varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+        }   else {
+            return varInterval(std::min(v1.getLower(), v2.getLower()), std::max(v1.getUpper(), v2.getUpper()));
+        }
+    }
+
     //setter
     void setLower(int lower) {
         if (lower <= INF_NEG)
@@ -317,8 +325,6 @@ static bool pause = false;
  */
 void comp(varInterval &intervalX, varInterval &intervalY, varInterval &intervalR);
 
-
-
 /**
  * Here are the analysis functions for each arithmetic operators.
  * The analysis for operators, are both forward and backward.
@@ -388,7 +394,6 @@ bool analyzeBlockWithContext(BasicBlock *BB,
 void printAnalysisMap(std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
                       std::map<std::string, Instruction *> &instructionMap);
 
-
 void printBasicBlockContext(std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> context) {
     for (auto &p : context) {
         std::cout << getBasicBlockLabel(p.first) << std::endl;
@@ -448,7 +453,49 @@ void printAnalysisMapWithContext(
     }
 }
 
+void printAnalysisMap(std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
+                      std::map<std::string, Instruction *> &instructionMap) {
+    std::cout << "==============Analysis Report==============" << std::endl;
+    for (auto &m : analysisMap) {
+        std::cout << getBasicBlockLabel(m.first) << std::endl;
+        for (auto &_m : m.second) {
+            std::cout << getInstructionString(*(_m.first)) << "  >>  " << _m.second.getIntervalString() << std::endl;
+        }
+        for (auto mm = m.second.begin(); mm != m.second.end(); mm++) {
+            std::string temp_mm = (*mm).first->getName().str().c_str();
+            if (temp_mm.size() == 0) {
+                continue;
+            }
+            for (auto mm1 = mm; mm1 != m.second.end(); mm1++) {
+                std::string temp_mm1 = (*mm1).first->getName().str().c_str();
+                if (temp_mm1.size() == 0 || temp_mm == temp_mm1) {
+                    continue;
+                }
+                int v1_range[2] = {(*mm).second.getLower(), (*mm).second.getUpper()};
+                int v2_range[2] = {(*mm1).second.getLower(), (*mm1).second.getUpper()};
+                if (v1_range[0] == varInterval::INF_NEG || v1_range[1] == varInterval::INF_POS) {
+                    std::cout << temp_mm << " <--> " << temp_mm1 << " : "
+                              << "INF" << std::endl;
+                } else if (v2_range[0] == varInterval::INF_NEG || v2_range[1] == varInterval::INF_POS) {
+                    std::cout << temp_mm << " <--> " << temp_mm1 << " : "
+                              << "INF" << std::endl;
+                } else {
+                    int a = std::abs(v1_range[0] - v2_range[1]);
+                    int b = std::abs(v1_range[1] - v2_range[0]);
+                    std::cout << temp_mm << " <--> " << temp_mm1 << " : "
+                              << (a > b ? (a >= varInterval::INF_POS ? "INF" : std::to_string(a)) : (b >=
+                                                                                                     varInterval::INF_POS
+                                                                                                     ? "INF"
+                                                                                                     : std::to_string(
+                                              b)))
+                              << std::endl;
+                }
 
+            }
+        }
+        std::cout << "===========================================" << std::endl;
+    }
+}
 //main function
 int main(int argc, char **argv) {
     //Preparation
@@ -672,6 +719,11 @@ int main(int argc, char **argv) {
 }
 
 
+/**
+ * Function for constraint-based analysis
+ */
+
+//helper function
 std::vector<varInterval> getOperandIntervals(Instruction &I,
                                              Value *op1,
                                              Value *op2,
@@ -684,19 +736,19 @@ std::vector<varInterval> getOperandIntervals(Instruction &I,
     if (isa<llvm::ConstantInt>(op2)) {
         auto op2_val = dyn_cast<llvm::ConstantInt>(op2)->getZExtValue();
         auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
-        interval_op1 = (context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr]);
+        interval_op1 = variables[op1_instr];
         interval_op2 = varInterval(op2_val, op2_val);
 
     } else if (isa<llvm::ConstantInt>(op1)) {
         auto op1_val = dyn_cast<llvm::ConstantInt>(op1)->getZExtValue();
         auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
         interval_op1 = varInterval(op1_val, op1_val);
-        interval_op2 = (context.find(op2_instr) != context.end() ? context[op2_instr] : variables[op2_instr]);
+        interval_op2 = variables[op2_instr];
     } else {
         auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
         auto op2_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op2))];
-        interval_op1 = context.find(op1_instr) != context.end() ? context[op1_instr] : variables[op1_instr];
-        interval_op2 = context.find(op2_instr) != context.end() ? context[op2_instr] : variables[op2_instr];
+        interval_op1 = variables[op1_instr];
+        interval_op2 = variables[op2_instr];
     }
     std::vector<varInterval> results;
     results.push_back(interval_op1);
@@ -746,22 +798,49 @@ bool unionAndCheckChanged(std::map<Instruction *, varInterval> &input,
 }
 
 
+
+std::map<Instruction *, varInterval> joinWithContext(std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> blockMap){
+    std::map<Instruction *, varInterval> unionSet;
+    if(blockMap.size() == 0){
+        return unionSet;
+    }
+    for(auto it = blockMap.begin(); it != blockMap.end(); ++it){
+        if(it == blockMap.begin()){
+            unionSet = it->second;
+        }else{
+            for(auto &pair : unionSet){
+                pair.second = varInterval::getUnion(pair.second, it->second[pair.first]);
+            }
+        }
+    }
+    return unionSet;
+}
+
+
+//operators with context
 void analyzeAddWithContext(Instruction &I,
                            std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> &blockMap,
                            std::map<std::string, Instruction *> &instructionMap) {
-    for (auto &pair : blockMap) {
-        auto context = *pair.first;
-        auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), *pair.first, pair.second,
-                                          instructionMap);
-        varInterval temp = varInterval::add(result[0], result[1]);
-        if (pair.first->find(&I) != pair.first->end()) {
+    if (blockMap.begin()->first->find(&I) != blockMap.begin()->first->end()) {
+        auto join = joinWithContext(blockMap);
+        for(auto &pair :blockMap){
+            auto context = *pair.first;
+            auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), *pair.first, join, instructionMap);
+            varInterval temp = varInterval::add(result[0], result[1]);
             if (varInterval::getIntersection(temp, context[&I]).isEmpty())
-                for (auto &var : pair.second) var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+                for (auto &var : pair.second)
+                    var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
             else{
-                pair.second[&I] = temp;
+                pair.second = join;
+                pair.second[&I] = varInterval::getIntersection(temp, context[&I]);
             }
-
-        } else {
+        }
+        //if not
+    } else {
+        for (auto &pair : blockMap) {
+            auto context = *pair.first;
+            auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), *pair.first, pair.second, instructionMap);
+            varInterval temp = varInterval::add(result[0], result[1]);
             pair.second[&I] = temp;
         }
     }
@@ -995,6 +1074,11 @@ bool analyzeBlockWithContext(BasicBlock *BB,
 
 
 }
+
+
+/**
+ * Function for Simple Generic analysis
+ */
 
 bool analyzeBlock(BasicBlock *BB, std::map<Instruction *, varInterval> &input,
                   std::map<std::string, Instruction *> &instructionMap,
@@ -1468,46 +1552,3 @@ void analyzeBr(BasicBlock *BB, Instruction &I, std::map<Instruction *, varInterv
     result[bb_op2] = branch2;
 }
 
-void printAnalysisMap(std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
-                      std::map<std::string, Instruction *> &instructionMap) {
-    std::cout << "==============Analysis Report==============" << std::endl;
-    for (auto &m : analysisMap) {
-        std::cout << getBasicBlockLabel(m.first) << std::endl;
-        for (auto &_m : m.second) {
-            std::cout << getInstructionString(*(_m.first)) << "  >>  " << _m.second.getIntervalString() << std::endl;
-        }
-        for (auto mm = m.second.begin(); mm != m.second.end(); mm++) {
-            std::string temp_mm = (*mm).first->getName().str().c_str();
-            if (temp_mm.size() == 0) {
-                continue;
-            }
-            for (auto mm1 = mm; mm1 != m.second.end(); mm1++) {
-                std::string temp_mm1 = (*mm1).first->getName().str().c_str();
-                if (temp_mm1.size() == 0 || temp_mm == temp_mm1) {
-                    continue;
-                }
-                int v1_range[2] = {(*mm).second.getLower(), (*mm).second.getUpper()};
-                int v2_range[2] = {(*mm1).second.getLower(), (*mm1).second.getUpper()};
-                if (v1_range[0] == varInterval::INF_NEG || v1_range[1] == varInterval::INF_POS) {
-                    std::cout << temp_mm << " <--> " << temp_mm1 << " : "
-                              << "INF" << std::endl;
-                } else if (v2_range[0] == varInterval::INF_NEG || v2_range[1] == varInterval::INF_POS) {
-                    std::cout << temp_mm << " <--> " << temp_mm1 << " : "
-                              << "INF" << std::endl;
-                } else {
-                    int a = std::abs(v1_range[0] - v2_range[1]);
-                    int b = std::abs(v1_range[1] - v2_range[0]);
-                    std::cout << temp_mm << " <--> " << temp_mm1 << " : "
-                              << (a > b ? (a >= varInterval::INF_POS ? "INF" : std::to_string(a)) : (b >=
-                                                                                                     varInterval::INF_POS
-                                                                                                     ? "INF"
-                                                                                                     : std::to_string(
-                                              b)))
-                              << std::endl;
-                }
-
-            }
-        }
-        std::cout << "===========================================" << std::endl;
-    }
-}
