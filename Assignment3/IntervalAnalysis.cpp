@@ -422,7 +422,7 @@ void printcontextCombination(std::vector<std::map<Instruction *, varInterval>> &
 void printAnalysisMapWithContext(
         std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>> &contextAnalysisMap) {
     for (auto &pair : contextAnalysisMap) {
-        std::cout << getBasicBlockLabel(pair.first) << "==============================="<< std::endl;
+        std::cout << getBasicBlockLabel(pair.first) << "===============================" << std::endl;
         for (auto &context_variables : pair.second) {
             bool isNotEmpty = true;
             for (auto &context_pair : *context_variables.first) {
@@ -438,18 +438,18 @@ void printAnalysisMapWithContext(
                 }
             }
             if (!isNotEmpty) {
-//                continue;
+                continue;
             }
-            std::cout << "Context:  ------------------------" << std::endl;
-            for (auto &context_pair : *context_variables.first) {
-                std::cout << getInstructionString(*context_pair.first) << ">>"
-                          << context_pair.second.getIntervalString() << std::endl;
-            }
-            std::cout << "Variables: ------------------------" << std::endl;
-            for (auto &variable_pair : context_variables.second) {
-                std::cout << getInstructionString(*variable_pair.first) << ">>"
-                          << variable_pair.second.getIntervalString() << std::endl;
-            }
+//            std::cout << "Context:  ------------------------" << std::endl;
+//            for (auto &context_pair : *context_variables.first) {
+//                std::cout << getInstructionString(*context_pair.first) << ">>"
+//                          << context_pair.second.getIntervalString() << std::endl;
+//            }
+//            std::cout << "Variables: ------------------------" << std::endl;
+//            for (auto &variable_pair : context_variables.second) {
+//                std::cout << getInstructionString(*variable_pair.first) << ">>"
+//                          << variable_pair.second.getIntervalString() << std::endl;
+//            }
         }
 
         std::map<Instruction *, varInterval> final_result;
@@ -462,8 +462,8 @@ void printAnalysisMapWithContext(
                 break;
             }
         }
-        if(!isNotEmpty){
-//            continue;
+        if (!isNotEmpty) {
+            continue;
         }
         for (auto &pair : final_result) {
             std::cout << getInstructionString(*pair.first) << "  -> " << pair.second.getIntervalString()
@@ -516,28 +516,10 @@ void printAnalysisMap(std::map<BasicBlock *, std::map<Instruction *, varInterval
     }
 }
 
-//main function
-int main(int argc, char **argv) {
-    //Preparation
-    LLVMContext &Context = getGlobalContext();
-    SMDiagnostic Err;
-    Module *M = ParseIRFile(argv[1], Err, Context);
-    if (M == nullptr) {
-        fprintf(stderr, "error: failed to load LLVM IR file \"%s\"", argv[1]);
-        return EXIT_FAILURE;
-    }
-    Function *F = M->getFunction("main");
-    BasicBlock *entryBB = &F->getEntryBlock();
 
-    //CONSTRUCT All Data Structures
-    std::map<BasicBlock *, std::map<Instruction *, varInterval>> analysisMap;
-    std::map<std::string, Instruction *> instructionMap;
-
-    std::stack<std::pair<BasicBlock *, std::map<Instruction *, varInterval>>> traversalStack;
-
-    std::map<Instruction *, varInterval> emptySet;
-    traversalStack.push(std::make_pair(entryBB, emptySet));
-
+void generateAnalysisReport(std::stack<std::pair<BasicBlock *, std::map<Instruction *, varInterval>>> &traversalStack,
+                            std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap,
+                            std::map<std::string, Instruction *> &instructionMap) {
     while (!traversalStack.empty()) {
         std::map<BasicBlock *, std::map<Instruction *, varInterval>> result;
         auto pair = traversalStack.top();
@@ -585,15 +567,23 @@ int main(int argc, char **argv) {
             std::cin.get();
         }
     }
+}
 
-    printAnalysisMap(analysisMap, instructionMap);
 
-    /**
-     * for each basic block, generate the context
-     */
-    std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> context;
-
+void generateContext(std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> &context,
+                     std::map<std::string, Instruction *> &instructionMap,
+                     std::map<BasicBlock *, std::map<Instruction *, varInterval>> &analysisMap) {
     for (auto &p : analysisMap) {
+        /**
+         * TEST PART, MAY NOT WORK
+         */
+        for(auto &pair : p.second){
+            pair.second = varInterval(varInterval::INF_NEG, varInterval::INF_POS);
+        }
+        /**
+         * TEST PART END HERE
+         */
+
         BasicBlock *BB = p.first;
         std::map<Instruction *, varInterval> bbOutput = p.second;
         std::map<BasicBlock *, std::map<Instruction *, varInterval>> result;
@@ -638,35 +628,27 @@ int main(int argc, char **argv) {
             }
         }
     }
-    /**
-     * finish generating the context for each block
-     */
-//    std::map<BasicBlock*, std::vector<std::map<Instruction*, varInterval>>> context;
-    if (debug)
-        printBasicBlockContext(context);
+}
 
+void generateContextCombination(std::vector<std::map<Instruction *, varInterval>> &contextCombination,
+                                std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> &context) {
     /**
-     * generates different context combinations
+     * context: pair(BasicBlock*, std::vector<std::map<Instruction*, varInterval>>)
+     * >>>>Basic Block: %2
+     * Case:
+     *  %N = alloca i32, align 4  >>  1-INF_POS
+     *  %5 = load i32* %N, align 4  >>  1-INF_POS
+     *Case:
+     *  %N = alloca i32, align 4  >>  INF_NEG-0
+     *  %5 = load i32* %N, align 4  >>  INF_NEG-0
+     *>>>>Basic Block: %7
+     *Case:
+     *  %a = alloca i32, align 4  >>  1-6
+     *  %8 = load i32* %a, align 4  >>  1-6
+     *Case:
+     *  %a = alloca i32, align 4  >>  -5-0
+     *  %8 = load i32* %a, align 4  >>  -5-0
      */
-    std::vector<std::map<Instruction *, varInterval>> contextCombination;
-
-    /**
-         * context: pair(BasicBlock*, std::vector<std::map<Instruction*, varInterval>>)
-         * >>>>Basic Block: %2
-         * Case:
-         *  %N = alloca i32, align 4  >>  1-INF_POS
-         *  %5 = load i32* %N, align 4  >>  1-INF_POS
-         *Case:
-         *  %N = alloca i32, align 4  >>  INF_NEG-0
-         *  %5 = load i32* %N, align 4  >>  INF_NEG-0
-         *>>>>Basic Block: %7
-         *Case:
-         *  %a = alloca i32, align 4  >>  1-6
-         *  %8 = load i32* %a, align 4  >>  1-6
-         *Case:
-         *  %a = alloca i32, align 4  >>  -5-0
-         *  %8 = load i32* %a, align 4  >>  -5-0
-         */
     //for each context
     for (auto context_pair : context) {
         /**
@@ -710,12 +692,13 @@ int main(int argc, char **argv) {
             }
         }
     }
-    printcontextCombination(contextCombination);
+}
 
-
-    //CONSTRUCT All Data Structures
-    std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>> contextAnalysisMap;
-    std::stack<std::pair<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>>> contextTraversalStack;
+void runBlockIntervalAnalysis(BasicBlock *entryBB,
+                              std::vector<std::map<Instruction *, varInterval>> &contextCombination,
+                              std::map<std::string, Instruction *> &instructionMap,
+                              std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>> &contextAnalysisMap,
+                              std::stack<std::pair<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>>> &contextTraversalStack) {
     std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> initialSet;
     for (auto &combination : contextCombination) {
         std::map<Instruction *, varInterval> emptySet;
@@ -735,14 +718,57 @@ int main(int argc, char **argv) {
             }
         }
     }
+}
 
+//main function
+int main(int argc, char **argv) {
+    //Preparation
+    LLVMContext &Context = getGlobalContext();
+    SMDiagnostic Err;
+    Module *M = ParseIRFile(argv[1], Err, Context);
+    if (M == nullptr) {
+        fprintf(stderr, "error: failed to load LLVM IR file \"%s\"", argv[1]);
+        return EXIT_FAILURE;
+    }
+    Function *F = M->getFunction("main");
+    BasicBlock *entryBB = &F->getEntryBlock();
+
+    //CONSTRUCT All Data Structures
+    std::map<BasicBlock *, std::map<Instruction *, varInterval>> analysisMap;
+    std::map<std::string, Instruction *> instructionMap;
+    std::stack<std::pair<BasicBlock *, std::map<Instruction *, varInterval>>> traversalStack;
+    std::map<Instruction *, varInterval> emptySet;
+    traversalStack.push(std::make_pair(entryBB, emptySet));
+    //Generate Analysis Map
+    generateAnalysisReport(traversalStack, analysisMap, instructionMap);
+
+//    printAnalysisMap(analysisMap, instructionMap);
+
+    /**
+     * for each basic block, generate the context
+     */
+    std::map<BasicBlock *, std::vector<std::map<Instruction *, varInterval>>> context;
+    //generate context
+    generateContext(context, instructionMap, analysisMap);
+    /**
+     * finish generating the context for each block
+     */
+    //    if (debug)
+    printBasicBlockContext(context);
+
+    /**
+     * generates different context combinations
+     */
+    std::vector<std::map<Instruction *, varInterval>> contextCombination;
+    generateContextCombination(contextCombination,context);
+//    printcontextCombination(contextCombination);
+
+    //CONSTRUCT All Data Structures
+    std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>> contextAnalysisMap;
+    std::stack<std::pair<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>>> contextTraversalStack;
+
+    runBlockIntervalAnalysis(entryBB, contextCombination, instructionMap, contextAnalysisMap, contextTraversalStack);
     printAnalysisMapWithContext(contextAnalysisMap);
-
-    //print for block 22
-
-//    for (auto &map : contextAnalysisMap) {
-//
-//    }
 }
 
 
