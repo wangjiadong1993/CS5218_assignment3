@@ -866,13 +866,14 @@ bool unionAndCheckChanged(std::map<Instruction *, varInterval> &input,
     return changed;
 }
 
-void cleanUpEmpty(std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> blockMap){
+void cleanUpEmpty(std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> &blockMap){
     for (auto &pair : blockMap) {
         bool containsEmpty = false;
 
         for (auto &c : *pair.first) {
             pair.second[c.first] = varInterval::getIntersection(c.second, pair.second[c.first]);
         }
+
         for (auto &v : pair.second) {
             if (v.second.isEmpty()) {
                 containsEmpty = true;
@@ -936,7 +937,6 @@ void operatorWithContext(Instruction &I,
                 pair.second[&I] = varInterval::getIntersection(temp, context[&I]);
             }
         }
-        //if not
     } else {
         for (auto &pair : blockMap) {
             auto context = *pair.first;
@@ -983,7 +983,6 @@ void analyzeStoreWithContext(Instruction &I,
     varInterval temp;
     if (blockMap.begin()->first->find(op2_instr) != blockMap.begin()->first->end()) {
         auto join = joinWithContext(blockMap);
-
         if (isa<llvm::ConstantInt>(op1)) {
             auto op1_val = dyn_cast<llvm::ConstantInt>(op1)->getZExtValue();
             temp = varInterval(op1_val, op1_val);
@@ -991,7 +990,6 @@ void analyzeStoreWithContext(Instruction &I,
             auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
             temp = join[op1_instr];
         }
-
         for (auto &pair :blockMap) {
             auto context = *pair.first;
             if (varInterval::getIntersection(temp, context[op2_instr]).isEmpty()) {
@@ -1002,8 +1000,6 @@ void analyzeStoreWithContext(Instruction &I,
                 pair.second[op2_instr] = varInterval::getIntersection(temp, context[op2_instr]);
             }
         }
-
-        //if not
     } else {
         for (auto &pair : blockMap) {
             auto context = *pair.first;
@@ -1015,8 +1011,6 @@ void analyzeStoreWithContext(Instruction &I,
                 temp = pair.second[op1_instr];
             }
             pair.second[op2_instr] = temp;
-
-
         }
     }
 
@@ -1031,8 +1025,7 @@ void analyzeLoadWithContext(Instruction &I,
         auto join = joinWithContext(blockMap);
         for (auto &pair :blockMap) {
             auto context = *pair.first;
-            auto variables = pair.second;
-            varInterval temp = variables[instructionMap[getInstructionString(*op_instruction)]];
+            varInterval temp = pair.second[instructionMap[getInstructionString(*op_instruction)]];
             if (varInterval::getIntersection(temp, context[&I]).isEmpty()) {
                 for (auto &var : pair.second)
                     var.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
@@ -1041,15 +1034,11 @@ void analyzeLoadWithContext(Instruction &I,
                 pair.second[&I] = varInterval::getIntersection(temp, context[&I]);
             }
         }
-        //if not
     } else {
         for (auto &pair : blockMap) {
-            auto context = *pair.first;
-            auto variables = pair.second;
-            pair.second[&I] = variables[instructionMap[getInstructionString(*op_instruction)]];
+            pair.second[&I] = pair.second[instructionMap[getInstructionString(*op_instruction)]];
         }
     }
-
     cleanUpEmpty(blockMap);
 }
 
@@ -1057,26 +1046,12 @@ void analyzeAllocaWithContext(Instruction &I,
                               std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> &blockMap,
                               std::map<std::string, Instruction *> &instructionMap) {
     if (blockMap.begin()->first->find(&I) != blockMap.begin()->first->end()) {
-        for (auto &pair :blockMap) {
-            auto context = *pair.first;
+        for (auto &pair :blockMap)
             pair.second = joinWithContext(blockMap);
-
-            for (auto &c : context) {
-                pair.second[c.first] = varInterval::getIntersection(c.second, pair.second[c.first]);
-            }
-        }
     } else {
-        for (auto &pair : blockMap) {
-            auto context = *pair.first;
+        for (auto &pair : blockMap)
             pair.second[&I] = varInterval(varInterval::INF_NEG, varInterval::INF_POS);
-
-
-            for (auto &c : context) {
-                pair.second[c.first] = varInterval::getIntersection(c.second, pair.second[c.first]);
-            }
-        }
     }
-
     cleanUpEmpty(blockMap);
 
 }
@@ -1159,22 +1134,6 @@ bool analyzeBlockWithContext(BasicBlock *BB,
             }
             case Instruction::Store: {
                 analyzeStoreWithContext(I, input, instructionMap);
-
-
-                std::cout << "Block: " << getBasicBlockLabel(BB) << std::endl;
-                std::cout << getInstructionString(I) << std::endl;
-                for (auto &p : input) {
-                    std::cout << ">>" << std::endl;
-                    for (auto &context_pair : *p.first) {
-                        std::cout << getInstructionString(*context_pair.first) << " -=-=-=> "
-                                  << context_pair.second.getIntervalString() << std::endl;
-                    }
-                    std::cout << ">><<" << std::endl;
-                    for (auto &variable_pair : p.second) {
-                        std::cout << getInstructionString(*variable_pair.first) << " -=-=-=> "
-                                  << variable_pair.second.getIntervalString() << std::endl;
-                    }
-                }
                 break;
             }
             case Instruction::Load: {
@@ -1186,8 +1145,6 @@ bool analyzeBlockWithContext(BasicBlock *BB,
             }
             case Instruction::Br: {
                 analyzeBrWithContext(I, input, instructionMap, result);
-
-
                 return unionAndCheckChangedWithContext(input, contextAnalysisMap[BB]);
             }
             case Instruction::Ret: {
