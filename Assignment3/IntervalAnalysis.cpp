@@ -440,16 +440,16 @@ void printAnalysisMapWithContext(
             if (!isNotEmpty) {
                 continue;
             }
-//            std::cout << "Context:  ------------------------" << std::endl;
-//            for (auto &context_pair : *context_variables.first) {
-//                std::cout << getInstructionString(*context_pair.first) << ">>"
-//                          << context_pair.second.getIntervalString() << std::endl;
-//            }
-//            std::cout << "Variables: ------------------------" << std::endl;
-//            for (auto &variable_pair : context_variables.second) {
-//                std::cout << getInstructionString(*variable_pair.first) << ">>"
-//                          << variable_pair.second.getIntervalString() << std::endl;
-//            }
+            std::cout << "Context:  ------------------------" << std::endl;
+            for (auto &context_pair : *context_variables.first) {
+                std::cout << getInstructionString(*context_pair.first) << ">>"
+                          << context_pair.second.getIntervalString() << std::endl;
+            }
+            std::cout << "Variables: ------------------------" << std::endl;
+            for (auto &variable_pair : context_variables.second) {
+                std::cout << getInstructionString(*variable_pair.first) << ">>"
+                          << variable_pair.second.getIntervalString() << std::endl;
+            }
         }
 
         std::map<Instruction *, varInterval> final_result;
@@ -577,7 +577,7 @@ void generateContext(std::map<BasicBlock *, std::vector<std::map<Instruction *, 
         /**
          * TEST PART, MAY NOT WORK
          */
-        for(auto &pair : p.second){
+        for (auto &pair : p.second) {
             pair.second = varInterval(varInterval::INF_NEG, varInterval::INF_POS);
         }
         /**
@@ -662,6 +662,9 @@ void generateContextCombination(std::vector<std::map<Instruction *, varInterval>
          *  %N = alloca i32, align 4  >>  INF_NEG-0
          *  %5 = load i32* %N, align 4  >>  INF_NEG-0
          */
+        if(context_pair.second.size() == 0 || context_pair.second[0].size() == 0 )
+            continue;
+
         if (contextCombination.size() == 0) {
             contextCombination = context_pair.second;
             continue;
@@ -760,8 +763,8 @@ int main(int argc, char **argv) {
      * generates different context combinations
      */
     std::vector<std::map<Instruction *, varInterval>> contextCombination;
-    generateContextCombination(contextCombination,context);
-//    printcontextCombination(contextCombination);
+    generateContextCombination(contextCombination, context);
+    printcontextCombination(contextCombination);
 
     //CONSTRUCT All Data Structures
     std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>> contextAnalysisMap;
@@ -946,6 +949,7 @@ void analyzeStoreWithContext(Instruction &I,
     varInterval temp;
     if (blockMap.begin()->first->find(op2_instr) != blockMap.begin()->first->end()) {
         auto join = joinWithContext(blockMap);
+
         if (isa<llvm::ConstantInt>(op1)) {
             auto op1_val = dyn_cast<llvm::ConstantInt>(op1)->getZExtValue();
             temp = varInterval(op1_val, op1_val);
@@ -953,6 +957,24 @@ void analyzeStoreWithContext(Instruction &I,
             auto op1_instr = instructionMap[getInstructionString(*dyn_cast<Instruction>(op1))];
             temp = join[op1_instr];
         }
+
+        if (temp.getLower() == -2 && temp.getUpper() == -2) {
+            std::cout << "Join output" << std::endl;
+            for (auto &pair : join) {
+                std::cout << getInstructionString(*pair.first) << " - > " << pair.second.getIntervalString()
+                          << std::endl;
+            }
+            std::cout << "" << std::endl;
+            std::cout << temp.getIntervalString() << std::endl;
+            std::cout << "" << std::endl;
+            for (auto &pair : blockMap) {
+                auto context = *pair.first;
+                std::cout << context[op2_instr].getIntervalString() << "xxxx"
+                          << varInterval::getIntersection(temp, context[op2_instr]).getIntervalString() << std::endl;
+            }
+            std::cin.get();
+        }
+
         for (auto &pair :blockMap) {
             auto context = *pair.first;
             if (varInterval::getIntersection(temp, context[op2_instr]).isEmpty()) {
@@ -963,6 +985,7 @@ void analyzeStoreWithContext(Instruction &I,
                 pair.second[op2_instr] = varInterval::getIntersection(temp, context[op2_instr]);
             }
         }
+
         //if not
     } else {
         for (auto &pair : blockMap) {
