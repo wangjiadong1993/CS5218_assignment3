@@ -35,8 +35,8 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="834" column="26" lean-forward="true" selection-start-line="834" selection-start-column="26" selection-end-line="834" selection-end-column="26" />
+            <state relative-caret-position="249">
+              <caret line="951" column="84" selection-start-line="951" selection-start-column="84" selection-end-line="951" selection-end-column="84" />
               <folding>
                 <element signature="e#817#8359#1" />
                 <element signature="e#8767#9003#0" />
@@ -49,12 +49,9 @@
                 <element signature="e#24896#26775#0" />
                 <element signature="e#21801#23462#0" />
                 <element signature="e#29688#29864#0" />
-                <element signature="e#28631#30746#0" />
-                <element signature="e#29916#30660#0" />
-                <element signature="e#30896#31718#0" />
-                <element signature="e#31722#32586#0" />
+                <element signature="e#36103#38561#0" />
                 <element signature="e#32975#33429#0" />
-                <element signature="e#34324#35051#0" />
+                <element signature="e#38977#40242#0" />
                 <element signature="e#36441#37164#0" />
                 <element signature="e#35302#36540#0" />
                 <element signature="e#38157#40391#0" />
@@ -188,12 +185,12 @@
       <option name="presentableId" value="Default" />
       <updated>1524487905622</updated>
       <workItem from="1524487907225" duration="14932000" />
-      <workItem from="1524845110595" duration="20501000" />
+      <workItem from="1524845110595" duration="22811000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35433000" />
+    <option name="totallyTimeSpent" value="37743000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
@@ -274,12 +271,9 @@
             <element signature="e#24896#26775#0" />
             <element signature="e#21801#23462#0" />
             <element signature="e#29688#29864#0" />
-            <element signature="e#28631#30746#0" />
-            <element signature="e#29916#30660#0" />
-            <element signature="e#30896#31718#0" />
-            <element signature="e#31722#32586#0" />
+            <element signature="e#36103#38561#0" />
             <element signature="e#32975#33429#0" />
-            <element signature="e#34324#35051#0" />
+            <element signature="e#38977#40242#0" />
             <element signature="e#36441#37164#0" />
             <element signature="e#35302#36540#0" />
             <element signature="e#38157#40391#0" />
@@ -343,8 +337,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="834" column="26" lean-forward="true" selection-start-line="834" selection-start-column="26" selection-end-line="834" selection-end-column="26" />
+        <state relative-caret-position="249">
+          <caret line="951" column="84" selection-start-line="951" selection-start-column="84" selection-end-line="951" selection-end-column="84" />
           <folding>
             <element signature="e#817#8359#1" />
             <element signature="e#8767#9003#0" />
@@ -357,12 +351,9 @@
             <element signature="e#24896#26775#0" />
             <element signature="e#21801#23462#0" />
             <element signature="e#29688#29864#0" />
-            <element signature="e#28631#30746#0" />
-            <element signature="e#29916#30660#0" />
-            <element signature="e#30896#31718#0" />
-            <element signature="e#31722#32586#0" />
+            <element signature="e#36103#38561#0" />
             <element signature="e#32975#33429#0" />
-            <element signature="e#34324#35051#0" />
+            <element signature="e#38977#40242#0" />
             <element signature="e#36441#37164#0" />
             <element signature="e#35302#36540#0" />
             <element signature="e#38157#40391#0" />
