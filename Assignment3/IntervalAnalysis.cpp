@@ -233,6 +233,7 @@ public:
     }
 
     static varInterval sub(varInterval a, varInterval b) {
+
         if (a.isEmpty() || b.isEmpty()) {
             return varInterval(INF_POS, INF_NEG);
         }
@@ -245,6 +246,7 @@ public:
             upper = INF_POS;
         }
         return varInterval(lower, upper);
+
     }
 
     //formatted printing
@@ -420,7 +422,7 @@ void printcontextCombination(std::vector<std::map<Instruction *, varInterval>> &
 void printAnalysisMapWithContext(
         std::map<BasicBlock *, std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>>> &contextAnalysisMap) {
     for (auto &pair : contextAnalysisMap) {
-        std::cout << getBasicBlockLabel(pair.first) << std::endl;
+        std::cout << getBasicBlockLabel(pair.first) << "==============================="<< std::endl;
         for (auto &context_variables : pair.second) {
             bool isNotEmpty = true;
             for (auto &context_pair : *context_variables.first) {
@@ -436,18 +438,36 @@ void printAnalysisMapWithContext(
                 }
             }
             if (!isNotEmpty) {
-                continue;
+//                continue;
             }
-            std::cout << "Context:  ====" << std::endl;
+            std::cout << "Context:  ------------------------" << std::endl;
             for (auto &context_pair : *context_variables.first) {
                 std::cout << getInstructionString(*context_pair.first) << ">>"
                           << context_pair.second.getIntervalString() << std::endl;
             }
-            std::cout << "Variables: ====" << std::endl;
+            std::cout << "Variables: ------------------------" << std::endl;
             for (auto &variable_pair : context_variables.second) {
                 std::cout << getInstructionString(*variable_pair.first) << ">>"
                           << variable_pair.second.getIntervalString() << std::endl;
             }
+        }
+
+        std::map<Instruction *, varInterval> final_result;
+        final_result = joinWithContext(pair.second);
+        std::cout << "Final Result ------------------------" << std::endl;
+        bool isNotEmpty = true;
+        for (auto &pair : final_result) {
+            if (pair.second.isEmpty()) {
+                isNotEmpty = false;
+                break;
+            }
+        }
+        if(!isNotEmpty){
+//            continue;
+        }
+        for (auto &pair : final_result) {
+            std::cout << getInstructionString(*pair.first) << "  -> " << pair.second.getIntervalString()
+                      << std::endl;
         }
     }
 }
@@ -566,7 +586,7 @@ int main(int argc, char **argv) {
         }
     }
 
-//    printAnalysisMap(analysisMap, instructionMap);
+    printAnalysisMap(analysisMap, instructionMap);
 
     /**
      * for each basic block, generate the context
@@ -690,7 +710,7 @@ int main(int argc, char **argv) {
             }
         }
     }
-//    printcontextCombination(contextCombination);
+    printcontextCombination(contextCombination);
 
 
     //CONSTRUCT All Data Structures
@@ -720,17 +740,9 @@ int main(int argc, char **argv) {
 
     //print for block 22
 
-    for (auto &map : contextAnalysisMap) {
-        std::map<Instruction *, varInterval> final_result;
-        if (getBasicBlockLabel(map.first) == ">>>>Basic Block: %22") {
-            final_result = joinWithContext(map.second);
-            std::cout << "Showing the Final Result ------------->" << std::endl;
-            for (auto &pair : final_result) {
-                std::cout << getInstructionString(*pair.first) << "  -> " << pair.second.getIntervalString()
-                          << std::endl;
-            }
-        }
-    }
+//    for (auto &map : contextAnalysisMap) {
+//
+//    }
 }
 
 
@@ -868,7 +880,7 @@ void operatorWithContext(Instruction &I,
             auto context = *pair.first;
             auto result = getOperandIntervals(I, I.getOperand(0), I.getOperand(1), *pair.first, pair.second,
                                               instructionMap);
-            varInterval temp = varInterval::add(result[0], result[1]);
+            varInterval temp = getOp(result[0], result[1], op);
             pair.second[&I] = temp;
         }
     }
@@ -1027,6 +1039,8 @@ bool unionAndCheckChangedWithContext(
             }
         }
     }
+
+
     return changed;
 }
 
