@@ -26,8 +26,8 @@
       <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="273" column="22" lean-forward="true" selection-start-line="273" selection-start-column="22" selection-end-line="273" selection-end-column="22" />
+            <state relative-caret-position="341">
+              <caret line="643" column="12" selection-start-line="643" selection-start-column="12" selection-end-line="643" selection-end-column="12" />
               <folding>
                 <element signature="e#587#816#0" />
                 <element signature="e#817#9094#1" />
@@ -35,27 +35,22 @@
                 <element signature="e#32309#32533#0" />
                 <element signature="e#32534#34171#0" />
                 <element signature="e#34173#35834#0" />
-                <element signature="e#35836#36517#0" />
                 <element signature="e#36520#36827#0" />
-                <element signature="e#36829#38035#0" />
                 <element signature="e#38037#38484#0" />
                 <element signature="e#21551#22056#0" />
                 <element signature="e#22058#22545#0" />
-                <element signature="e#22547#24764#0" />
                 <element signature="e#24766#27300#0" />
                 <element signature="e#27303#29381#0" />
                 <element signature="e#29384#32301#0" />
                 <element signature="e#32303#35015#0" />
                 <element signature="e#32528#33095#0" />
                 <element signature="e#35017#38486#0" />
-                <element signature="e#16916#25536#1" />
-                <element signature="e#33011#33045#0" />
                 <element signature="e#34718#36090#1" />
                 <element signature="e#28631#30746#0" />
                 <element signature="e#29916#30660#0" />
                 <element signature="e#30896#31718#0" />
                 <element signature="e#42947#46185#0" />
-                <element signature="e#32975#33429#0" />
+                <element signature="e#47013#48227#0" />
                 <element signature="e#43457#44070#0" />
                 <element signature="e#36441#37164#0" />
                 <element signature="e#35302#36540#0" />
@@ -71,6 +66,7 @@
                 <element signature="e#41475#42337#1" />
                 <element signature="e#41780#42681#0" />
                 <element signature="e#59612#64860#0" />
+                <marker date="1524982719146" expanded="true" signature="21928:22157" ph="..." />
               </folding>
             </state>
           </provider>
@@ -79,8 +75,8 @@
       <file leaf-file-name="example2.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example2.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+            <state relative-caret-position="255">
+              <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -88,8 +84,8 @@
       <file leaf-file-name="example2.ll" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example2.ll">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="15" column="31" lean-forward="true" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+            <state relative-caret-position="181">
+              <caret line="34" column="12" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -135,6 +131,11 @@
       <find>6</find>
       <find>6</find>
       <find>interset variable end</find>
+      <find>erase</find>
+      <find>joinWithContext</find>
+      <find>operatorWithContext</find>
+      <find>analyzeAddWithContext</find>
+      <find>cleanUpEmpty</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -223,7 +224,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79182000" />
+    <option name="totallyTimeSpent" value="82429000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
@@ -299,27 +300,22 @@
             <element signature="e#32309#32533#0" />
             <element signature="e#32534#34171#0" />
             <element signature="e#34173#35834#0" />
-            <element signature="e#35836#36517#0" />
             <element signature="e#36520#36827#0" />
-            <element signature="e#36829#38035#0" />
             <element signature="e#38037#38484#0" />
             <element signature="e#21551#22056#0" />
             <element signature="e#22058#22545#0" />
-            <element signature="e#22547#24764#0" />
             <element signature="e#24766#27300#0" />
             <element signature="e#27303#29381#0" />
             <element signature="e#29384#32301#0" />
             <element signature="e#32303#35015#0" />
             <element signature="e#32528#33095#0" />
             <element signature="e#35017#38486#0" />
-            <element signature="e#16916#25536#1" />
-            <element signature="e#33011#33045#0" />
             <element signature="e#34718#36090#1" />
             <element signature="e#28631#30746#0" />
             <element signature="e#29916#30660#0" />
             <element signature="e#30896#31718#0" />
             <element signature="e#42947#46185#0" />
-            <element signature="e#32975#33429#0" />
+            <element signature="e#47013#48227#0" />
             <element signature="e#43457#44070#0" />
             <element signature="e#36441#37164#0" />
             <element signature="e#35302#36540#0" />
@@ -335,6 +331,7 @@
             <element signature="e#41475#42337#1" />
             <element signature="e#41780#42681#0" />
             <element signature="e#59612#64860#0" />
+            <marker date="1524982719146" expanded="true" signature="21928:22157" ph="..." />
           </folding>
         </state>
       </provider>
@@ -405,22 +402,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example2.ll">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="15" column="31" lean-forward="true" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+        <state relative-caret-position="181">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/example2.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        <state relative-caret-position="255">
+          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="273" column="22" lean-forward="true" selection-start-line="273" selection-start-column="22" selection-end-line="273" selection-end-column="22" />
+        <state relative-caret-position="341">
+          <caret line="643" column="12" selection-start-line="643" selection-start-column="12" selection-end-line="643" selection-end-column="12" />
           <folding>
             <element signature="e#587#816#0" />
             <element signature="e#817#9094#1" />
@@ -428,27 +425,22 @@
             <element signature="e#32309#32533#0" />
             <element signature="e#32534#34171#0" />
             <element signature="e#34173#35834#0" />
-            <element signature="e#35836#36517#0" />
             <element signature="e#36520#36827#0" />
-            <element signature="e#36829#38035#0" />
             <element signature="e#38037#38484#0" />
             <element signature="e#21551#22056#0" />
             <element signature="e#22058#22545#0" />
-            <element signature="e#22547#24764#0" />
             <element signature="e#24766#27300#0" />
             <element signature="e#27303#29381#0" />
             <element signature="e#29384#32301#0" />
             <element signature="e#32303#35015#0" />
             <element signature="e#32528#33095#0" />
             <element signature="e#35017#38486#0" />
-            <element signature="e#16916#25536#1" />
-            <element signature="e#33011#33045#0" />
             <element signature="e#34718#36090#1" />
             <element signature="e#28631#30746#0" />
             <element signature="e#29916#30660#0" />
             <element signature="e#30896#31718#0" />
             <element signature="e#42947#46185#0" />
-            <element signature="e#32975#33429#0" />
+            <element signature="e#47013#48227#0" />
             <element signature="e#43457#44070#0" />
             <element signature="e#36441#37164#0" />
             <element signature="e#35302#36540#0" />
@@ -464,6 +456,7 @@
             <element signature="e#41475#42337#1" />
             <element signature="e#41780#42681#0" />
             <element signature="e#59612#64860#0" />
+            <marker date="1524982719146" expanded="true" signature="21928:22157" ph="..." />
           </folding>
         </state>
       </provider>
