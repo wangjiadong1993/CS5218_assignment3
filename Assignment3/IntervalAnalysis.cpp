@@ -322,7 +322,8 @@ static bool pause = false;
  *  X   Y        R     X   Y        R
  */
 void comp(varInterval &intervalX, varInterval &intervalY, varInterval &intervalR);
-
+void compare(Value *cmpOp1, Value *cmpOp2, varInterval &R, std::map<Instruction *, varInterval> &result,
+        std::map<std::string, Instruction *> &instructionMap);
 /**
  * Here are the analysis functions for each arithmetic operators.
  * The analysis for operators, are both forward and backward.
@@ -920,6 +921,10 @@ varInterval getOp(varInterval op1, varInterval op2, std::string op) {
     }
 }
 
+
+
+
+
 void operatorWithContext(Instruction &I,
                          std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> &blockMap,
                          std::map<std::string, Instruction *> &instructionMap, std::string op) {
@@ -1067,8 +1072,87 @@ void analyzeBrWithContext(Instruction &I,
         return;
     }
     auto *bb_op2 = dyn_cast<BasicBlock>(branchInst->getSuccessor(1));
-    result[bb_op1] = blockMap;
-    result[bb_op2] = blockMap;
+
+
+    //cmp instruction
+    auto *cmpIns = dyn_cast<ICmpInst>(I.getOperand(0));
+    //cmp variables
+    Value *cmpOp1 = cmpIns->getOperand(0);
+    Value *cmpOp2 = cmpIns->getOperand(1);
+    std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> total_branch1;
+    std::map<std::map<Instruction *, varInterval> *, std::map<Instruction *, varInterval>> total_branch2;
+
+    for(auto context : blockMap){
+        std::map<Instruction *, varInterval> branch1 = context.second;
+        std::map<Instruction *, varInterval> branch2 = context.second;
+        auto ins_op1 = dyn_cast<Instruction>(cmpOp1);
+
+        switch (cmpIns->getSignedPredicate()) {
+            case CmpInst::Predicate::ICMP_SGT : {
+                varInterval R1(1, varInterval::INF_POS);
+                varInterval R2(varInterval::INF_NEG, 0);
+                compare(cmpOp1, cmpOp2, R1, branch1, instructionMap);
+                compare(cmpOp1, cmpOp2, R2, branch2, instructionMap);
+                break;
+            }
+            case CmpInst::Predicate::ICMP_SGE : {
+                varInterval R1(0, varInterval::INF_POS);
+                varInterval R2(varInterval::INF_NEG, -1);
+                compare(cmpOp1, cmpOp2, R1, branch1, instructionMap);
+                compare(cmpOp1, cmpOp2, R2, branch2, instructionMap);
+                break;
+            }
+            case CmpInst::Predicate::ICMP_SLT : {
+                varInterval R1(varInterval::INF_NEG, -1);
+                varInterval R2(0, varInterval::INF_POS);
+                compare(cmpOp1, cmpOp2, R1, branch1, instructionMap);
+                compare(cmpOp1, cmpOp2, R2, branch2, instructionMap);
+                break;
+            }
+            case CmpInst::Predicate::ICMP_SLE : {
+                varInterval R1(varInterval::INF_NEG, 0);
+                varInterval R2(1, varInterval::INF_POS);
+                compare(cmpOp1, cmpOp2, R1, branch1, instructionMap);
+                compare(cmpOp1, cmpOp2, R2, branch2, instructionMap);
+                break;
+            }
+            case CmpInst::Predicate::ICMP_EQ : {
+                varInterval R1(0, 0);
+                varInterval R2(varInterval::INF_NEG, varInterval::INF_POS);
+                compare(cmpOp1, cmpOp2, R1, branch1, instructionMap);
+                compare(cmpOp1, cmpOp2, R2, branch2, instructionMap);
+                break;
+            }
+            case CmpInst::Predicate::ICMP_NE : {
+                varInterval R1(varInterval::INF_NEG, varInterval::INF_POS);
+                varInterval R2(0, 0);
+                compare(cmpOp1, cmpOp2, R1, branch1, instructionMap);
+                compare(cmpOp1, cmpOp2, R2, branch2, instructionMap);
+                break;
+            }
+            default: {
+                std::cout << "Alert: " << "Compare Type Unknown." << std::endl;
+                break;
+            }
+        }
+//        if(context.first->find(ins_op1) != context.first->end()){
+//            if(varInterval::getIntersection(branch1[ins_op1], (*context.first)[ins_op1]).isEmpty()){
+//                for(auto &p : branch1){
+//                    p.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+//                }
+//            }
+//            if(varInterval::getIntersection(branch2[ins_op1], (*context.first)[ins_op1]).isEmpty()){
+//                for(auto &p : branch2){
+//                    p.second = varInterval(varInterval::INF_POS, varInterval::INF_NEG);
+//                }
+//            }
+//        }
+        total_branch1[context.first] = branch1;
+        total_branch2[context.first] = branch2;
+    }
+    result[bb_op1] = total_branch1;
+    result[bb_op2] = total_branch2;
+
 }
 
 
@@ -1144,11 +1228,82 @@ bool analyzeBlockWithContext(BasicBlock *BB,
                 break;
             }
             case Instruction::Br: {
+                if(getBasicBlockLabel(BB) == ">>>>Basic Block: %16"){
+                    std::cout << "---------------INPUT------------------------"<<std::endl;
+                    std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+                    for(auto &p : input){
+                        std::cout << ">>" << std::endl;
+                        for(auto &context_pair : *p.first){
+                            std::cout << getInstructionString(*context_pair.first) << " -=-=-=> " << context_pair.second.getIntervalString() << std::endl;
+                        }
+                        std::cout << ">><<" << std::endl;
+                        for(auto &variable_pair : p.second){
+                            std::cout << getInstructionString(*variable_pair.first) << " -=-=-=> " << variable_pair.second.getIntervalString() << std::endl;
+                        }
+                    }
+                    std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+                }
+
                 analyzeBrWithContext(I, input, instructionMap, result);
-                return unionAndCheckChangedWithContext(input, contextAnalysisMap[BB]);
+
+                if(getBasicBlockLabel(BB) == ">>>>Basic Block: %16"){
+                    std::cout << "---------------OUTPUT------------------------"<<std::endl;
+                    std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+                    for(auto &result_p : result){
+                        std::cout << "Result Block: " << getBasicBlockLabel(result_p.first) << std::endl;
+                        for(auto &p : result_p.second){
+                            std::cout << ">>" << std::endl;
+                            for(auto &context_pair : *p.first){
+                                std::cout << getInstructionString(*context_pair.first) << " -=-=-=> " << context_pair.second.getIntervalString() << std::endl;
+                            }
+                            std::cout << ">><<" << std::endl;
+                            for(auto &variable_pair : p.second){
+                                std::cout << getInstructionString(*variable_pair.first) << " -=-=-=> " << variable_pair.second.getIntervalString() << std::endl;
+                            }
+                        }
+                    }
+                    std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+                }
+
+                bool changed = unionAndCheckChangedWithContext(input, contextAnalysisMap[BB]);
+
+                if(getBasicBlockLabel(BB) == ">>>>Basic Block: %16"){
+                    std::cout << "---------------ANALYSISMAP--------------------------"<<std::endl;
+                    std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+                    for(auto &p : contextAnalysisMap[BB]){
+                        std::cout << ">>" << std::endl;
+                        for(auto &context_pair : *p.first){
+                            std::cout << getInstructionString(*context_pair.first) << " -=-=-=> " << context_pair.second.getIntervalString() << std::endl;
+                        }
+                        std::cout << ">><<" << std::endl;
+                        for(auto &variable_pair : p.second){
+                            std::cout << getInstructionString(*variable_pair.first) << " -=-=-=> " << variable_pair.second.getIntervalString() << std::endl;
+                        }
+                    }
+                    std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+                    std::cin.get();
+                }
+
+
+                return changed;
             }
             case Instruction::Ret: {
-                return unionAndCheckChangedWithContext(input, contextAnalysisMap[BB]);
+                bool changed = unionAndCheckChangedWithContext(input, contextAnalysisMap[BB]);
+//                std::cout << "----------------------------------------------"<<std::endl;
+//                std::cout << "Block: " << getBasicBlockLabel(BB) <<std::endl;
+//                for(auto &p : contextAnalysisMap[BB]){
+//                    std::cout << ">>" << std::endl;
+//                    for(auto &context_pair : *p.first){
+//                        std::cout << getInstructionString(*context_pair.first) << " -=-=-=> " << context_pair.second.getIntervalString() << std::endl;
+//                    }
+//                    std::cout << ">><<" << std::endl;
+//                    for(auto &variable_pair : p.second){
+//                        std::cout << getInstructionString(*variable_pair.first) << " -=-=-=> " << variable_pair.second.getIntervalString() << std::endl;
+//                    }
+//                }
+//                std::cin.get();
+
+                return changed;
             }
             default: {
                 std::cout << "Unknown: " << I.getOpcodeName() << std::endl;
@@ -1160,6 +1315,11 @@ bool analyzeBlockWithContext(BasicBlock *BB,
 
 
 }
+
+
+
+
+
 
 
 /**
