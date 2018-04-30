@@ -23,49 +23,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="IntervalAnalysis.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="42" column="9" lean-forward="true" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
-              <folding>
-                <element signature="e#32071#32307#0" />
-                <element signature="e#32309#32533#0" />
-                <element signature="e#32534#34171#0" />
-                <element signature="e#34173#35834#0" />
-                <element signature="e#36520#36827#0" />
-                <element signature="e#38037#38484#0" />
-                <element signature="e#21551#22056#0" />
-                <element signature="e#22058#22545#0" />
-                <element signature="e#24766#27300#0" />
-                <element signature="e#27303#29381#0" />
-                <element signature="e#29384#32301#0" />
-                <element signature="e#32528#33095#0" />
-                <element signature="e#35017#38486#0" />
-                <element signature="e#33011#33045#0" />
-                <element signature="e#34718#36090#1" />
-                <element signature="e#28631#30746#0" />
-                <element signature="e#29916#30660#0" />
-                <element signature="e#30896#31718#0" />
-                <element signature="e#42947#46185#0" />
-                <element signature="e#47013#48227#0" />
-                <element signature="e#43457#44070#0" />
-                <element signature="e#36441#37164#0" />
-                <element signature="e#35302#36540#0" />
-                <element signature="e#47858#54693#0" />
-                <element signature="e#23464#25472#0" />
-                <element signature="e#32556#36245#1" />
-                <element signature="e#29206#32374#0" />
-                <element signature="e#32376#35630#0" />
-                <element signature="e#35632#38022#0" />
-                <element signature="e#38024#39173#0" />
-                <element signature="e#39175#40522#0" />
-                <element signature="e#40524#40871#0" />
-                <element signature="e#41475#42337#1" />
-                <element signature="e#41780#42681#0" />
-                <element signature="e#59612#64860#0" />
-                <marker date="1524983245922" expanded="true" signature="21821:22050" ph="..." />
-              </folding>
+            <state relative-caret-position="521">
+              <caret line="1174" selection-start-line="1174" selection-end-line="1174" />
             </state>
           </provider>
         </entry>
@@ -73,17 +35,35 @@
       <file leaf-file-name="example2.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example2.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+            <state relative-caret-position="306">
+              <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="example2.ll" pinned="false" current-in-tab="false">
+      <file leaf-file-name="example2.ll" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example2.ll">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="34" column="12" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="12" />
+            <state relative-caret-position="575">
+              <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="example1.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example1.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="example1.ll" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example1.ll">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="765">
+              <caret line="45" column="73" lean-forward="true" selection-start-line="45" selection-start-column="73" selection-end-line="45" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -127,7 +107,6 @@
       <find>analyzeBlockWithContext</find>
       <find>11</find>
       <find>6</find>
-      <find>6</find>
       <find>interset variable end</find>
       <find>erase</find>
       <find>joinWithContext</find>
@@ -147,8 +126,9 @@
         <option value="$USER_HOME$/Downloads/llvm/include/c++/v1/utility" />
         <option value="$PROJECT_DIR$/example3.c" />
         <option value="$PROJECT_DIR$/example2.c" />
-        <option value="$PROJECT_DIR$/example2.ll" />
         <option value="$PROJECT_DIR$/IntervalAnalysis.cpp" />
+        <option value="$PROJECT_DIR$/example1.ll" />
+        <option value="$PROJECT_DIR$/example2.ll" />
       </list>
     </option>
   </component>
@@ -159,10 +139,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="640" />
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
-    <option name="width" value="640" />
+    <option name="width" value="1280" />
     <option name="height" value="777" />
   </component>
   <component name="ProjectView">
@@ -226,13 +205,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82848000" />
+    <option name="totallyTimeSpent" value="82945000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2494043" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="CMake" order="7" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -244,11 +223,21 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2494043" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="CMake" order="7" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,76 +252,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example2.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example1.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example2.ll">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9843">
           <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
-          <folding>
-            <element signature="e#32071#32307#0" />
-            <element signature="e#32309#32533#0" />
-            <element signature="e#32534#34171#0" />
-            <element signature="e#34173#35834#0" />
-            <element signature="e#36520#36827#0" />
-            <element signature="e#38037#38484#0" />
-            <element signature="e#21551#22056#0" />
-            <element signature="e#22058#22545#0" />
-            <element signature="e#24766#27300#0" />
-            <element signature="e#27303#29381#0" />
-            <element signature="e#29384#32301#0" />
-            <element signature="e#32528#33095#0" />
-            <element signature="e#35017#38486#0" />
-            <element signature="e#33011#33045#0" />
-            <element signature="e#34718#36090#1" />
-            <element signature="e#28631#30746#0" />
-            <element signature="e#29916#30660#0" />
-            <element signature="e#30896#31718#0" />
-            <element signature="e#42947#46185#0" />
-            <element signature="e#47013#48227#0" />
-            <element signature="e#43457#44070#0" />
-            <element signature="e#36441#37164#0" />
-            <element signature="e#35302#36540#0" />
-            <element signature="e#47858#54693#0" />
-            <element signature="e#23464#25472#0" />
-            <element signature="e#32556#36245#1" />
-            <element signature="e#29206#32374#0" />
-            <element signature="e#32376#35630#0" />
-            <element signature="e#35632#38022#0" />
-            <element signature="e#38024#39173#0" />
-            <element signature="e#39175#40522#0" />
-            <element signature="e#40524#40871#0" />
-            <element signature="e#41475#42337#1" />
-            <element signature="e#41780#42681#0" />
-            <element signature="e#59612#64860#0" />
-            <marker date="1524983245922" expanded="true" signature="21821:22050" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -416,46 +339,255 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="42" column="9" lean-forward="true" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
-          <folding>
-            <element signature="e#32071#32307#0" />
-            <element signature="e#32309#32533#0" />
-            <element signature="e#32534#34171#0" />
-            <element signature="e#34173#35834#0" />
-            <element signature="e#36520#36827#0" />
-            <element signature="e#38037#38484#0" />
-            <element signature="e#21551#22056#0" />
-            <element signature="e#22058#22545#0" />
-            <element signature="e#24766#27300#0" />
-            <element signature="e#27303#29381#0" />
-            <element signature="e#29384#32301#0" />
-            <element signature="e#32528#33095#0" />
-            <element signature="e#35017#38486#0" />
-            <element signature="e#33011#33045#0" />
-            <element signature="e#34718#36090#1" />
-            <element signature="e#28631#30746#0" />
-            <element signature="e#29916#30660#0" />
-            <element signature="e#30896#31718#0" />
-            <element signature="e#42947#46185#0" />
-            <element signature="e#47013#48227#0" />
-            <element signature="e#43457#44070#0" />
-            <element signature="e#36441#37164#0" />
-            <element signature="e#35302#36540#0" />
-            <element signature="e#47858#54693#0" />
-            <element signature="e#23464#25472#0" />
-            <element signature="e#32556#36245#1" />
-            <element signature="e#29206#32374#0" />
-            <element signature="e#32376#35630#0" />
-            <element signature="e#35632#38022#0" />
-            <element signature="e#38024#39173#0" />
-            <element signature="e#39175#40522#0" />
-            <element signature="e#40524#40871#0" />
-            <element signature="e#41475#42337#1" />
-            <element signature="e#41780#42681#0" />
-            <element signature="e#59612#64860#0" />
-            <marker date="1524983245922" expanded="true" signature="21821:22050" ph="..." />
-          </folding>
+        <state relative-caret-position="584">
+          <caret line="781" column="38" selection-start-line="781" selection-start-column="38" selection-end-line="781" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example1.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9843">
+          <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="1075" column="14" selection-start-line="1075" selection-start-column="14" selection-end-line="1075" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/llvm/IR/Constants.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/utility">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="257" lean-forward="true" selection-start-line="257" selection-end-line="257" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/llvm/IR/Instruction.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="31" column="6" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example3.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example3.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/__config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="360" selection-start-line="360" selection-end-line="360" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="521">
+          <caret line="1174" lean-forward="true" selection-start-line="1174" selection-end-line="1174" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="82" selection-start-line="82" selection-end-line="82" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example1.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example1.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9843">
+          <caret line="579" column="82" selection-start-line="579" selection-start-column="82" selection-end-line="579" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="1075" column="14" selection-start-line="1075" selection-start-column="14" selection-end-line="1075" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/llvm/IR/Constants.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/utility">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="257" lean-forward="true" selection-start-line="257" selection-end-line="257" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/llvm/IR/Instruction.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="31" column="6" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example3.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example3.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/llvm/include/c++/v1/__config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="360" selection-start-line="360" selection-end-line="360" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IntervalAnalysis.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="521">
+          <caret line="1174" selection-start-line="1174" selection-end-line="1174" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example1.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example1.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="73" lean-forward="true" selection-start-line="45" selection-start-column="73" selection-end-line="45" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example2.ll">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
         </state>
       </provider>
     </entry>
